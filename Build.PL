@@ -11,7 +11,7 @@ my @binscripts = grep(/.pl$/, @binfiles);
 
 my $builder = Module::Build->new(
     module_name         => 'misc_perl_NY',
-    license             => 'Perl_5',
+    license             => 'perl',
     dist_author         => q{Nick Youngblut <nyoungb2@illinois.edu>},
     dist_version_from   => 'lib/misc_perl_NY.pm',
     release_status      => 'stable',

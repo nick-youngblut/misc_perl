@@ -13,10 +13,8 @@ use File::Path qw/remove_tree/;
 ### args/flags
 pod2usage("$0: No files given.") if ((@ARGV == 0) && (-t STDIN));
 
-my ($verbose, $fork, @ass_list, @fwd_list, @rev_list, @mpile_list, $bin);
+my ($verbose, $fork, @ass_list, @fwd_list, @rev_list);
 GetOptions(
-	   "mpile=s{,}" => \@mpile_list,		# list of mpileup files
-	   "bin=i" => \$bin, 					# bin size for summarizing
 	   "assembly=s{,}" => \@ass_list,
 	   "forward=s{,}" => \@fwd_list,
 	   "reverse=s{,}" => \@rev_list,
@@ -26,21 +24,6 @@ GetOptions(
 	   );
 
 ### I/O error & defaults
-# defaults #	
-$fork = 1 if ! $fork;
-$bin = 5000 if ! $bin;
-
-# skipping bowtie2 & mpilup if summarizing #
-if(@mpile_list){
-	print join("\t", qw/Bin_end_position Average_cov Average_mapping_qual/), "\n";
-	foreach my $infile (@mpile_list){
-		die " ERROR: $infile not found\n" if ! -e $infile;
-		make_mpileup_summary($infile, scalar @mpile_list, $bin);
-		}
-	exit;
-	}
-
-# I/O error
 die " ERROR: provide 1 or more assemblies (fasta format), a foward read file (fastq), & a reverse file file (fastq)\n"
 	if ! @ass_list || ! @fwd_list || ! @rev_list;
 die " ERROR: the number of read files does not match the number of assembly files\n"
@@ -49,9 +32,10 @@ die " ERROR: the number of read files does not match the number of assembly file
 @fwd_list = check_files(@fwd_list);
 @rev_list = check_files(@rev_list);
 
+$fork = 1 if ! $fork;
+
 
 ### MAIN
-# calling bowtie2 & mpileup #
 my $pm = new Parallel::ForkManager($fork);
 for my $i (0..$#ass_list){
 	my $pid = $pm ->start and next;
@@ -87,8 +71,6 @@ for my $i (0..$#ass_list){
 
 $pm->wait_all_children;
 
-
-### Subroutines
 sub run_command{
 	my $cmd = shift;
 	print STDERR "\$ ", $cmd, "\n";
@@ -120,69 +102,17 @@ sub make_dir{
 	return $newdir;
 	}
 
-sub make_mpileup_summary{
-# making summary of mpileup output #
-# binning mean coverage and mapping quality #
-	my ($infile, $file_cnt, $bin) = @_;
-	
-	open IN, $infile or die $!;
-	
-	my(@cov, @qual);
-	while(<IN>){
-		my @line = split /\t/;
-		if($line[1] % $bin == 0 || eof){
-			print join("\t", $line[1], average(\@cov), average(\@qual)), "\n";
-			@cov = ();
-			@qual = ();
-			}
-		push(@cov, $line[3]);			# pushing coverage
-		
-		add_quals($line[4], \@qual)		# pushing mapping quality scores
-		}
-	}
-
-sub add_quals{
-# adding mapping quality scores to summary array #
-	my ($mapline, $qual_ref) = @_;
-	while($mapline =~ /\^./g){
-		(my $tmp = $&) =~ s/\^//;
-		$tmp = ord($tmp) -33;
-		die " ERROR: qual score->$tmp is outside of range (1-42)\n" if $tmp > 42 || $tmp < 0;
-		push(@$qual_ref, $tmp);			# phred+33; highest score appears to be 42
-		}
-		#print Dumper @$qual_ref;
-	}
-
-sub average{
-        my($data) = @_;
-        if (not @$data) {
-                die("Empty array\n");
-        }
-        my $total = 0;
-        foreach (@$data) {
-                $total += $_;
-        }
-        my $average = $total / @$data;
-        return $average;
-}
-
 __END__
 
 =pod
 
 =head1 NAME
 
-multi_mpileup.pl -- Parallel runs of bowtie2 and mpileup
+a5_pipeline.pl -- Assemble isolate genomes from Illumina data with ease
 
 =head1 SYNOPSIS
 
-=head2 Parallel runs of bowtie2 and mpileup
-
 multi_mpileup.pl -a *assembly.fna -f *read_F.fastq -r *read_R.fastq
-
-=head2 Summarizing mpileup files
-
-multi_mpileup.pl -m *.mpile > mpile_summary.txt
 
 =head2 options
 
@@ -195,10 +125,6 @@ multi_mpileup.pl -m *.mpile > mpile_summary.txt
 =item -r 	Reverse read files (fastq)
 
 =item -p 	Number of forked processes [1].
-
-=item -m 	Mpileup files
-
-=item -b 	Bin size [5000]
 
 =item -v 	Verbose output
 
@@ -214,7 +140,7 @@ perldoc multi_mpileup.pl
 
 Run bowtie2 followed by mpileup in parallel with multiple assemblies.
 The input is a list of assembly files (fasta format) and their corresponding
-read files (forward and reverse files in fastq format). The final output is *.mpile
+read files (forward and reverse files in fastq format).
 
 =head2 Warning
 
@@ -246,10 +172,6 @@ multi_mpileup.pl -a Msar_barkeri_fusaro.fna -f Msar_barkeri_fusaro_2m_F.fq -r Ms
 =head2 Multiple assemblies (4 parallel processes)
 
 multi_mpileup.pl -a *.fna -f *_F.fq -r *_R.fq -p 4
-
-=head2 Summarizing mpileup files (bin size of 10000bp)
-
-multi_mplieup.pl -b 10000 -m *.mpile > mpile_summary.txt
 
 =head1 AUTHOR
 

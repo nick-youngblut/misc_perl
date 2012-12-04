@@ -1,0 +1,5 @@
+do{ my $x = {
+       'misc_perl_NY-*' => 1,
+       'blib' => 1
+     };
+$x; }
