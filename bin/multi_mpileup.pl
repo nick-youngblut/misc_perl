@@ -130,8 +130,25 @@ sub make_mpileup_summary{
 	open IN, $infile or die $!;
 	
 	my(@cov, @qual);
+	my $last_scaf = "###start###";
+	my $last_pos = 0;
+	my $gen_wide_pos = 0;  		# additive position across scaffolds
 	while(<IN>){
 		my @line = split /\t/;
+		
+		# keeping track of genome-wide position #
+		if($line[0] ne $last_scaf){
+			if($last_scaf ne "###start###"){
+				print $infile, "\t" if $file_cnt > 1;
+				print join("\t", "scaffold_end", $last_pos,"NA", "NA"), "\n";
+				}
+			$gen_wide_pos = $last_pos;		# if new scaffold
+			$last_scaf = $line[0];
+			}
+		$line[1] += $gen_wide_pos;								# genome_wide psoition
+		$last_pos = $line[1];									# memory of last position
+		
+		# print if position at end of bin size #
 		if($line[1] % $bin == 0 || eof){
 			print $infile, "\t" if $file_cnt > 1;
 			print join("\t", $line[0], $line[1], average(\@cov), average(\@qual)), "\n";
