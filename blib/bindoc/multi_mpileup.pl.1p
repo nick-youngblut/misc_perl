@@ -130,10 +130,15 @@
 .if n .ad l
 .nh
 .SH "NAME"
-a5_pipeline.pl \-\- Assemble isolate genomes from Illumina data with ease
+multi_mpileup.pl \-\- Parallel runs of bowtie2 and mpileup
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
+.SS "Parallel runs of bowtie2 and mpileup"
+.IX Subsection "Parallel runs of bowtie2 and mpileup"
 multi_mpileup.pl \-a *assembly.fna \-f *read_F.fastq \-r *read_R.fastq
+.SS "Summarizing mpileup files"
+.IX Subsection "Summarizing mpileup files"
+multi_mpileup.pl \-m *.mpile > mpile_summary.txt
 .SS "options"
 .IX Subsection "options"
 .IP "\-a 	Assembly files (fasta)" 4
@@ -145,6 +150,10 @@ multi_mpileup.pl \-a *assembly.fna \-f *read_F.fastq \-r *read_R.fastq
 .IX Item "-r 	Reverse read files (fastq)"
 .IP "\-p 	Number of forked processes [1]." 4
 .IX Item "-p 	Number of forked processes [1]."
+.IP "\-m 	Mpileup files" 4
+.IX Item "-m 	Mpileup files"
+.IP "\-b 	Bin size [5000]" 4
+.IX Item "-b 	Bin size [5000]"
 .IP "\-v 	Verbose output" 4
 .IX Item "-v 	Verbose output"
 .IP "\-h 	This help message" 4
@@ -157,7 +166,7 @@ perldoc multi_mpileup.pl
 .IX Header "DESCRIPTION"
 Run bowtie2 followed by mpileup in parallel with multiple assemblies.
 The input is a list of assembly files (fasta format) and their corresponding
-read files (forward and reverse files in fastq format).
+read files (forward and reverse files in fastq format). The final output is *.mpile
 .SS "Warning"
 .IX Subsection "Warning"
 Each list of files is assumed to be in the same order!
@@ -184,6 +193,9 @@ multi_mpileup.pl \-a Msar_barkeri_fusaro.fna \-f Msar_barkeri_fusaro_2m_F.fq \-r
 .SS "Multiple assemblies (4 parallel processes)"
 .IX Subsection "Multiple assemblies (4 parallel processes)"
 multi_mpileup.pl \-a *.fna \-f *_F.fq \-r *_R.fq \-p 4
+.SS "Summarizing mpileup files (bin size of 10000bp)"
+.IX Subsection "Summarizing mpileup files (bin size of 10000bp)"
+multi_mplieup.pl \-b 10000 \-m *.mpile > mpile_summary.txt
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 Nick Youngblut <nyoungb2@illinois.edu>
