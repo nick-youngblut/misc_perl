@@ -32,9 +32,11 @@ $bin = 5000 if ! $bin;
 
 # skipping bowtie2 & mpilup if summarizing #
 if(@mpile_list){
+	print "File\t" if scalar @mpile_list > 1;
 	print join("\t", qw/Bin_end_position Average_cov Average_mapping_qual/), "\n";
 	foreach my $infile (@mpile_list){
 		die " ERROR: $infile not found\n" if ! -e $infile;
+		$infile = File::Spec->rel2abs($infile);
 		make_mpileup_summary($infile, scalar @mpile_list, $bin);
 		}
 	exit;
@@ -131,6 +133,7 @@ sub make_mpileup_summary{
 	while(<IN>){
 		my @line = split /\t/;
 		if($line[1] % $bin == 0 || eof){
+			print $infile, "\t" if $file_cnt > 1;
 			print join("\t", $line[1], average(\@cov), average(\@qual)), "\n";
 			@cov = ();
 			@qual = ();
