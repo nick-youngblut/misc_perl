@@ -20,6 +20,7 @@ GetOptions(
 	   );
 
 ### I/O error & defaults
+$len_cutoff = 100 if ! $len_cutoff;
 $cov_cutoff = "MS" if ! $cov_cutoff;
 die " ERROR: Coverage cutoff must be a number, 'M', or 'MS'\n" if $cov_cutoff !~ /^\d+$/ && $cov_cutoff !~ /^MS*$/i; 
 
@@ -64,15 +65,18 @@ sub pileup2fasta{
 			$scaffold{$tmp[0]}{"start"} = $tmp[1];
 			while(<>){
 				my @tmp = split /\t/;
-					#print Dumper $tmp[3], $cov_cutoff;
-				if($tmp[3] < $cov_cutoff){					# if end of high coverage region
-					print join("\n", $tmp[0], $scaffold{$tmp[0]}{"seq"}), "\n";
+				if($tmp[3] < $cov_cutoff && $scaffold{$tmp[0]}{"seq"}){					# if end of high coverage region
+					my $seq_name = join("_", $tmp[0], join("-", $scaffold{$tmp[0]}{"start"}, $tmp[1]));
+					print join("\n", ">$seq_name", $scaffold{$tmp[0]}{"seq"}), "\n"
+						if ($tmp[1] - $scaffold{$tmp[0]}{"start"}) >= $len_cutoff;
 					delete $scaffold{$tmp[0]};
 					last;
 					}
 				elsif(! exists $scaffold{$tmp[0]}){						# if high coverage, but transition to next scaffold
 					foreach my $name (keys %scaffold){
-						print join("\n", $name, $scaffold{$name}{"seq"}), "\n";
+						my $seq_name = join("_", $name, join("-", $scaffold{$tmp[0]}{"start"}, $tmp[1]));
+						print join("\n", ">$seq_name", $scaffold{$name}{"seq"}), "\n" 
+							if ($tmp[1] - $scaffold{$tmp[0]}{"start"}) >= $len_cutoff;
 						delete $scaffold{$name};
 						}
 					last;
@@ -82,6 +86,7 @@ sub pileup2fasta{
 				}	
 			}
 		}
+	print "\n";
 	}
 
 sub average{
