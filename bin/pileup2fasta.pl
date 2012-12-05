@@ -21,12 +21,12 @@ GetOptions(
 
 ### I/O error & defaults
 $len_cutoff = 100 if ! $len_cutoff;
-$cov_cutoff = "MS" if ! $cov_cutoff;
-die " ERROR: Coverage cutoff must be a number, 'M', or 'MS'\n" if $cov_cutoff !~ /^\d+$/ && $cov_cutoff !~ /^MS*$/i; 
+$cov_cutoff = "MS1" if ! $cov_cutoff;
+die " ERROR: Coverage cutoff must be a number or 'MS#'\n" if $cov_cutoff !~ /^\d+$/ && $cov_cutoff !~ /^MS\d+$/i; 
 
 ### MAIN
-$cov_cutoff = get_coverage_cutoff($cov_cutoff) if $cov_cutoff =~ /^MS*$/i; 		# coverage cutoff >= mean+stdev
-	#print Dumper $cov_cutoff; exit;
+$cov_cutoff = get_coverage_cutoff($cov_cutoff) if $cov_cutoff =~ /^MS\d+/i; 		# coverage cutoff >= mean+stdev
+print STDERR "Coverage cutoff: $cov_cutoff\n";
 pileup2fasta($cov_cutoff, $len_cutoff);
 
 ### Subroutines
@@ -40,21 +40,17 @@ sub get_coverage_cutoff{
 		push(@cov, $tmp[3]);
 		}
 	my $mean = average(\@cov);
+	my $stdev = stdev(\@cov);	
 	
-	if ($cov_cutoff =~ /^M$/i){ 
-		return $mean; 							# mean
-		}			
-	elsif ($cov_cutoff =~ /^MS$/i){
-		my $stdev = stdev(\@cov);	
-		return $mean + $stdev;					# mean + stdev
-		}
-	else{ die " LOGIC ERROR! $!\n"; }
+	(my $multiple = $cov_cutoff) =~ s/^MS//;
+	return int ($mean + $stdev * $multiple);
 	}
 
 sub pileup2fasta{
 # pulling out regions of high coverage #
 	my ($cov_cutoff, $len_cutoff) = @_;
 	
+	die " ERROR: provide an mpileup file via STDIN\n" if -t STDIN;
 	seek STDIN, 0, 0;
 	
 	my %scaffold;
@@ -155,9 +151,7 @@ can be useful for blasting the regions.
 
 =over
 
-=item "MS" 	Mean coverage + 1 standard deviation [default]
-
-=item "M" 		Mean coverage
+=item "MS#" 	Mean coverage + standard deviation * '#' [default = 1]
 
 =item Number	User supplied cutoff value
 
@@ -183,9 +177,9 @@ can be useful for blasting the regions.
 
 pileup2fasta.pl -c 100 -l 200 < file.pileup > file.fna
 
-=head2 Finding regions with a coverage >= mean whole-genome coverage
+=head2 Finding regions with a coverage >= mean + 2 *stdev of the whole-genome coverage
 
-pileup2fasta.pl -c M < file.pileup > file.fna
+pileup2fasta.pl -c MS2 < file.pileup > file.fna
 
 =head1 AUTHOR
 
