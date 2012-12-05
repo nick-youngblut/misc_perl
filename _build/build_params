@@ -109,6 +109,7 @@ do{ my $x = [
          'quiet' => undef,
          'extra_compiler_flags' => [],
          'script_files' => [
+                             './bin/pileup2fasta.pl',
                              './bin/multi_mpileup.pl'
                            ],
          'build_script' => 'Build',

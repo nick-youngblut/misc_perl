@@ -69,8 +69,8 @@ for my $i (0..$#ass_list){
 	symlink($fwd_list[$i], "$newdir/$fwd_parts[2]") or die $!;
 	symlink($rev_list[$i], "$newdir/$rev_parts[2]") or die $!;
 	
-	# line_wrapping genome file and calling faidx #
-	run_command("perl -pe 's/([^>]{100})/\$1\\n/g; s/\\n\\s*\\n/\\n/g' $ass_parts[2] > $ass_parts[2]\_lw.fna");
+	# removing N's; line_wrapping genome; calling faidx #
+	run_command("awk '{ if(\$0 !~ />/){ gsub(/[Nn]/, \"\"); print } else{print} }' $ass_parts[2] | perl -pe 's/([^>]{100})/\$1\\n/g; s/\\n\\s*\\n/\\n/g' > $ass_parts[2]\_lw.fna");
 	run_command("samtools faidx $ass_parts[2]\_lw.fna");
 	
 	# running bowtie #
@@ -82,7 +82,7 @@ for my $i (0..$#ass_list){
 	run_command("samtools sort $ass_parts[2]\_mapped.bam $ass_parts[2]\_mapped.sorted");
 	
 	# running mpileup #
-	run_command("samtools mpileup -B -d 10000 -f $ass_parts[2] $ass_parts[2]\_mapped.sorted.bam > $ass_parts[2].mpile");
+	run_command("samtools mpileup -B -d 10000 -f $ass_parts[2]\_lw.fna $ass_parts[2]\_mapped.sorted.bam > $ass_parts[2].mpile");
 	
 	$pm->finish;
 	}
@@ -130,8 +130,25 @@ sub make_mpileup_summary{
 	open IN, $infile or die $!;
 	
 	my(@cov, @qual);
+	my $last_scaf = "###start###";
+	my $last_pos = 0;
+	my $gen_wide_pos = 0;  		# additive position across scaffolds
 	while(<IN>){
 		my @line = split /\t/;
+		
+		# keeping track of genome-wide position #
+		if($line[0] ne $last_scaf){
+			if($last_scaf ne "###start###"){
+				print $infile, "\t" if $file_cnt > 1;
+				print join("\t", "scaffold_end", $last_pos,"NA", "NA"), "\n";
+				}
+			$gen_wide_pos = $last_pos;		# if new scaffold
+			$last_scaf = $line[0];
+			}
+		$line[1] += $gen_wide_pos;								# genome_wide psoition
+		$last_pos = $line[1];									# memory of last position
+		
+		# print if position at end of bin size #
 		if($line[1] % $bin == 0 || eof){
 			print $infile, "\t" if $file_cnt > 1;
 			print join("\t", $line[0], $line[1], average(\@cov), average(\@qual)), "\n";
@@ -223,6 +240,9 @@ read files (forward and reverse files in fastq format). The final output is *.mp
 
 Each list of files is assumed to be in the same order!
 Check the commands as they are run (printed to stderr).
+
+Also, all "N" are removed from the assembly prior to calling bowtie2 & mpileup
+because they cause all reference nucleotides in the mpileup output to be "N"
 
 =head2 Workflow:
 

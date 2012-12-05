@@ -123,82 +123,66 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "MULTI_MPILEUP 1"
-.TH MULTI_MPILEUP 1 "2012-12-04" "perl v5.14.2" "User Contributed Perl Documentation"
+.IX Title "PILEUP2FASTA 1"
+.TH PILEUP2FASTA 1 "2012-12-04" "perl v5.14.2" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
 .SH "NAME"
-multi_mpileup.pl \-\- Parallel runs of bowtie2 and mpileup
+pileup2fasta.pl \-\- pull out regions of high coverage from a pileup file
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-.SS "Parallel runs of bowtie2 and mpileup"
-.IX Subsection "Parallel runs of bowtie2 and mpileup"
-multi_mpileup.pl \-a *assembly.fna \-f *read_F.fastq \-r *read_R.fastq
-.SS "Summarizing mpileup files"
-.IX Subsection "Summarizing mpileup files"
-multi_mpileup.pl \-m *.mpile > mpile_summary.txt
+pileup2fasta.pl [options] < input > output
 .SS "options"
 .IX Subsection "options"
-.IP "\-a 	Assembly files (fasta)" 4
-.IX Item "-a 	Assembly files (fasta)"
+.IP "\-c 	Coverage cutoff [>= mean + stdev]" 4
+.IX Item "-c 	Coverage cutoff [>= mean + stdev]"
 .PD 0
-.IP "\-f 	Forward read files (fastq)" 4
-.IX Item "-f 	Forward read files (fastq)"
-.IP "\-r 	Reverse read files (fastq)" 4
-.IX Item "-r 	Reverse read files (fastq)"
-.IP "\-p 	Number of forked processes [1]." 4
-.IX Item "-p 	Number of forked processes [1]."
-.IP "\-m 	Mpileup files" 4
-.IX Item "-m 	Mpileup files"
-.IP "\-b 	Bin size [5000]" 4
-.IX Item "-b 	Bin size [5000]"
-.IP "\-v 	Verbose output" 4
-.IX Item "-v 	Verbose output"
-.IP "\-h 	This help message" 4
-.IX Item "-h 	This help message"
+.IP "\-l 	Length cutoff [>=100]" 4
+.IX Item "-l 	Length cutoff [>=100]"
+.IP "\-v	Verbose output" 4
+.IX Item "-v	Verbose output"
+.IP "\-h	This help message" 4
+.IX Item "-h	This help message"
 .PD
 .SS "For more information:"
 .IX Subsection "For more information:"
-perldoc multi_mpileup.pl
+perldoc pileup2fasta.pl
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-Run bowtie2 followed by mpileup in parallel with multiple assemblies.
-The input is a list of assembly files (fasta format) and their corresponding
-read files (forward and reverse files in fastq format). The final output is *.mpile
-.SS "Warning"
-.IX Subsection "Warning"
-Each list of files is assumed to be in the same order!
-Check the commands as they are run (printed to stderr).
-.PP
-Also, all \*(L"N\*(R" are removed from the assembly prior to calling bowtie2 & mpileup
-because they cause all reference nucleotides in the mpileup output to be \*(L"N\*(R"
-.SS "Workflow:"
-.IX Subsection "Workflow:"
-.IP "1)	make a directory for each assembly and reads" 4
-.IX Item "1)	make a directory for each assembly and reads"
+Pull out regions of high coverage from an mpileup output file, which
+can be useful for blasting the regions.
+.SS "Coverage cutoff options:"
+.IX Subsection "Coverage cutoff options:"
+.ie n .IP """MS#"" 	Mean coverage + standard deviation * '#' [default = 1]" 4
+.el .IP "``MS#'' 	Mean coverage + standard deviation * '#' [default = 1]" 4
+.IX Item "MS# 	Mean coverage + standard deviation * '#' [default = 1]"
 .PD 0
-.IP "2)	samtools faidx on assembly file" 4
-.IX Item "2)	samtools faidx on assembly file"
-.IP "3)	read mapping with bowtie2" 4
-.IX Item "3)	read mapping with bowtie2"
-.IP "4)	making and sorting a bam file" 4
-.IX Item "4)	making and sorting a bam file"
-.IP "5)	running mpileup" 4
-.IX Item "5)	running mpileup"
+.IP "Number	User supplied cutoff value" 4
+.IX Item "Number	User supplied cutoff value"
+.PD
+.ie n .SS "Output sequence name format = "">NAME_x\-y_z"""
+.el .SS "Output sequence name format = ``>NAME_x\-y_z''"
+.IX Subsection "Output sequence name format = >NAME_x-y_z"
+.IP "\s-1NAME\s0 	= Scaffold/chromosome name" 4
+.IX Item "NAME 	= Scaffold/chromosome name"
+.PD 0
+.IP "x 	= Start position in scaffold" 4
+.IX Item "x 	= Start position in scaffold"
+.IP "y 	= End position in scaffold" 4
+.IX Item "y 	= End position in scaffold"
+.IP "z 	= Mean coverage across fragment" 4
+.IX Item "z 	= Mean coverage across fragment"
 .PD
 .SH "EXAMPLES"
 .IX Header "EXAMPLES"
-.SS "Single assembly"
-.IX Subsection "Single assembly"
-multi_mpileup.pl \-a Msar_barkeri_fusaro.fna \-f Msar_barkeri_fusaro_2m_F.fq \-r Msar_barkeri_fusaro_2m_R.fq
-.SS "Multiple assemblies (4 parallel processes)"
-.IX Subsection "Multiple assemblies (4 parallel processes)"
-multi_mpileup.pl \-a *.fna \-f *_F.fq \-r *_R.fq \-p 4
-.SS "Summarizing mpileup files (bin size of 10000bp)"
-.IX Subsection "Summarizing mpileup files (bin size of 10000bp)"
-multi_mplieup.pl \-b 10000 \-m *.mpile > mpile_summary.txt
+.SS "Finding regions with a coverage >=100 reads & a length >=200bp"
+.IX Subsection "Finding regions with a coverage >=100 reads & a length >=200bp"
+pileup2fasta.pl \-c 100 \-l 200 < file.pileup > file.fna
+.SS "Finding regions with a coverage >= mean + 2 *stdev of the whole-genome coverage"
+.IX Subsection "Finding regions with a coverage >= mean + 2 *stdev of the whole-genome coverage"
+pileup2fasta.pl \-c \s-1MS2\s0 < file.pileup > file.fna
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 Nick Youngblut <nyoungb2@illinois.edu>
