@@ -151,6 +151,15 @@ sub make_mpileup_summary{
 		# print if position at end of bin size #
 		if($line[1] % $bin == 0 || eof){
 			print $infile, "\t" if $file_cnt > 1;
+
+			my $ave_cov = average(\@cov);
+			my $ave_qual = average(\@qual);
+			print STDERR " WARNING: no coverage values to average; NA's produced for:\n\tfile: $infile\n\tscaffold: $line[0]\n\tgenome_position: $line[1]\n"
+				if $ave_cov eq "NA";
+			print STDERR " WARNING: no mapping quality values to average; NA's produced for:\n\tfile: $infile\n\tscaffold: $line[0]\n\tgenome_position: $line[1]\n"
+				if $ave_qual eq "NA";
+			
+
 			print join("\t", $line[0], $line[1], average(\@cov), average(\@qual)), "\n";
 			@cov = ();
 			@qual = ();
@@ -176,12 +185,12 @@ sub add_quals{
 sub average{
         my($data) = @_;
         if (not @$data) {
-                die("Empty array\n");
-        }
+            return "NA";
+        	}
         my $total = 0;
         foreach (@$data) {
                 $total += $_;
-        }
+        	}
         my $average = $total / @$data;
         return $average;
 }
