@@ -61,12 +61,13 @@ sub pileup2fasta{
 	while(<>){
 		my @tmp = split /\t/;
 
-		if($tmp[3] >= $cov_cutoff){						# if change to high coverage region
-			$scaffold{$tmp[0]}{"start"} = $tmp[1];
+		if($tmp[3] >= $cov_cutoff){							# if change to high coverage region
+			$scaffold{$tmp[0]}{"start"} = $tmp[1];			# start of region
+			push(@{$scaffold{$tmp[0]}{"cov"}}, $tmp[3]);		# coverage 
 			while(<>){
 				my @tmp = split /\t/;
 				if($tmp[3] < $cov_cutoff && $scaffold{$tmp[0]}{"seq"}){					# if end of high coverage region
-					my $seq_name = join("_", $tmp[0], join("-", $scaffold{$tmp[0]}{"start"}, $tmp[1]));
+					my $seq_name = join("_", $tmp[0], join("-", $scaffold{$tmp[0]}{"start"}, $tmp[1]), int average($scaffold{$tmp[0]}{"cov"}) );
 					print join("\n", ">$seq_name", $scaffold{$tmp[0]}{"seq"}), "\n"
 						if ($tmp[1] - $scaffold{$tmp[0]}{"start"}) >= $len_cutoff;
 					delete $scaffold{$tmp[0]};
@@ -74,14 +75,14 @@ sub pileup2fasta{
 					}
 				elsif(! exists $scaffold{$tmp[0]}){						# if high coverage, but transition to next scaffold
 					foreach my $name (keys %scaffold){
-						my $seq_name = join("_", $name, join("-", $scaffold{$tmp[0]}{"start"}, $tmp[1]));
+						my $seq_name = join("_", $name, join("-", $scaffold{$tmp[0]}{"start"}, $tmp[1]), int average($scaffold{$tmp[0]}{"cov"}) );
 						print join("\n", ">$seq_name", $scaffold{$name}{"seq"}), "\n" 
 							if ($tmp[1] - $scaffold{$tmp[0]}{"start"}) >= $len_cutoff;
 						delete $scaffold{$name};
 						}
 					last;
 					}
-								
+				push(@{$scaffold{$tmp[0]}{"cov"}}, $tmp[3]);		# coverage 			
 				$scaffold{$tmp[0]}{"seq"} .= $tmp[2];			# adding nucleotides
 				}	
 			}
@@ -121,7 +122,7 @@ __END__
 
 =head1 NAME
 
-pileup2fasta.pl -- script pileup2fasta
+pileup2fasta.pl -- pull out regions of high coverage from a pileup file
 
 =head1 SYNOPSIS
 
@@ -130,6 +131,10 @@ pileup2fasta.pl [options] < input > output
 =head2 options
 
 =over
+
+=item -c 	Coverage cutoff [>= mean + stdev]
+
+=item -l 	Length cutoff [>=100]
 
 =item -v	Verbose output
 
@@ -143,20 +148,44 @@ perldoc pileup2fasta.pl
 
 =head1 DESCRIPTION
 
-The flow of execution is roughly:
-   1) Step 1
-   2) Step 2
-   3) Step 3
+Pull out regions of high coverage from an mpileup output file, which
+can be useful for blasting the regions.
+
+=head2 Coverage cutoff options:
+
+=over
+
+=item "MS" 	Mean coverage + 1 standard deviation [default]
+
+=item "M" 		Mean coverage
+
+=item Number	User supplied cutoff value
+
+=back
+
+=head2 Output sequence name format = ">NAME_x-y_z"
+
+=over
+
+=item NAME 	= Scaffold/chromosome name
+
+=item x 	= Start position in scaffold
+
+=item y 	= End position in scaffold
+
+=item z 	= Mean coverage across fragment
+
+=back
 
 =head1 EXAMPLES
 
-=head2 Usage method 1
+=head2 Finding regions with a coverage >=100 reads & a length >=200bp
 
-pileup2fasta.pl <read1.fastq> <read2.fastq> <output directory or basename>
+pileup2fasta.pl -c 100 -l 200 < file.pileup > file.fna
 
-=head2 Usage method 2
+=head2 Finding regions with a coverage >= mean whole-genome coverage
 
-pileup2fasta.pl <library file> <output directory or basename>
+pileup2fasta.pl -c M < file.pileup > file.fna
 
 =head1 AUTHOR
 
@@ -164,7 +193,7 @@ Nick Youngblut <nyoungb2@illinois.edu>
 
 =head1 AVAILABILITY
 
-sharchaea.life.uiuc.edu:/home/git/
+sharchaea.life.uiuc.edu:/home/git/NY_misc_perl
 
 =head1 COPYRIGHT
 
