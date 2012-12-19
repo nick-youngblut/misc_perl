@@ -37,10 +37,10 @@ do{ my $x = [
          'test_file_exts' => [
                                '.t'
                              ],
-         'dist_name' => 'misc_perl_NY',
+         'dist_name' => 'NY_misc_perl',
          'has_config_data' => undef,
          'install_base' => '/home/nyoungb2/perl5',
-         'module_name' => 'misc_perl_NY',
+         'module_name' => 'NY_misc_perl',
          'recursive_test_files' => undef,
          'libdoc_dirs' => [
                             'blib/lib',
@@ -109,8 +109,8 @@ do{ my $x = [
          'quiet' => undef,
          'extra_compiler_flags' => [],
          'script_files' => [
-                             './bin/pileup2fasta.pl',
-                             './bin/multi_mpileup.pl'
+                             './bin/gap_rm.pl',
+                             './bin/scaffold_cat.pl'
                            ],
          'build_script' => 'Build',
          'original_prefix' => {},
