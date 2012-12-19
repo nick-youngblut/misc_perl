@@ -73,7 +73,8 @@ do{ my $x = [
                               '/opt/iCORN-v0.97/',
                               '/opt/RAST_api/lib/',
                               '/opt/RepeatMasker/',
-                              '/usr/local/lib/perl/5.14.2/'
+                              '/usr/local/lib/perl/5.14.2/',
+                              '/opt/RAST_api/lib'
                             ],
          'auto_configure_requires' => 1,
          'create_license' => undef,
@@ -109,6 +110,7 @@ do{ my $x = [
          'quiet' => undef,
          'extra_compiler_flags' => [],
          'script_files' => [
+                             './bin/get_RAST_jobs.pl',
                              './bin/gap_rm.pl',
                              './bin/scaffold_cat.pl'
                            ],

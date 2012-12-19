@@ -53,11 +53,15 @@ sub load_job_list{
 	my %jobs;
 	while (<IN>){
 		chomp;
+		next if /^\s*#/;			# not including commented lines
+		next if /^\s*$/;			# not including spaces
 		s/ +/_/g;
 		my @tmp = split /\t/;
 		$jobs{$tmp[0]} = $tmp[1];
 		}	
 		#print Dumper %jobs; exit;
+	close IN;
+	
 	return \%jobs;
 	}
 
@@ -94,15 +98,22 @@ perldoc get_RAST_jobs.pl
 
 =head1 DESCRIPTION
 
-The script is just a wrapper around svr_retrieve_RAST_job.
+The script is just a wrapper around svr_retrieve_RAST_job to perform batch retrievals.
 
 =head2 Job ID file format
 
 Tab-delimited. 2-column format: 
 
-Column1 = Job ID
+=over
 
-Column2 = Organism name
+=item Column1 = Job ID
+
+=item Column2 = Organism name
+
+=item * Commented lines will be skipped.
+
+=back
+
 
 
 =head2 Accepted formats:
@@ -111,80 +122,17 @@ Column2 = Organism name
 
 =item genbank
 
-
-
-
-
-
-
-
-
-
 =item genbank_stripped
-
-
-
-
-
-
-
-
-
 
 =item embl
 
-
-
-
-
-
-
-
-
-
 =item embl_stripped
-
-
-
-
-
-
-
-
-
 
 =item gff3
 
-
-
-
-
-
-
-
-
-
 =item gff3_stripped
 
-
-
-
-
-
-
-
-
-
 =item rast_tarball
-
-
-
-
-
-
-
-
-
 
 =back
 
