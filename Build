@@ -11,7 +11,7 @@ sub magic_number_matches {
   open FH, '_build/magicnum' or return 0;
   my $filenum = <FH>;
   close FH;
-  return $filenum == 284042;
+  return $filenum == 679175;
 }
 
 my $progname;
@@ -31,7 +31,16 @@ BEGIN {
   }
   unshift @INC,
     (
-
+     '/home/nyoungb2/perl5/lib/perl5/x86_64-linux-gnu-thread-multi',
+     '/home/nyoungb2/perl5/lib/perl5',
+     '/opt/aligners/perl',
+     '/usr/local/bin',
+     '/opt/vcftools_0.1.9/bin',
+     '/opt/iCORN-v0.97',
+     '/opt/RAST_api/lib',
+     '/opt/RepeatMasker',
+     '/usr/local/lib/perl/5.14.2',
+     '/opt/RAST_api/lib'
     );
 }
 

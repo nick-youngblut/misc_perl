@@ -12,7 +12,7 @@ license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
-name: misc_perl_NY
+name: NY_misc_perl
 provides:
   misc_perl_NY:
     file: lib/misc_perl_NY.pm
