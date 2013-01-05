@@ -111,6 +111,7 @@ do{ my $x = [
          'extra_compiler_flags' => [],
          'script_files' => [
                              './bin/get_RAST_jobs.pl',
+                             './bin/proc_track.pl',
                              './bin/gap_rm.pl',
                              './bin/scaffold_cat.pl'
                            ],
