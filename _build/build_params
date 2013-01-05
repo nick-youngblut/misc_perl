@@ -27,12 +27,12 @@ do{ my $x = [
                                     'conflicts',
                                     'recommends'
                                   ],
-         'base_dir' => '/Users/nick/perl/projects/NY_misc_perl',
+         'base_dir' => '/home/nyoungb2/perl/projects/NY_misc_perl',
          'allow_mb_mismatch' => 0,
          'xs_files' => undef,
          'destdir' => undef,
          'metafile' => 'META.yml',
-         'mb_version' => '0.3603',
+         'mb_version' => '0.3607',
          'use_tap_harness' => 0,
          'test_file_exts' => [
                                '.t'
@@ -46,7 +46,7 @@ do{ my $x = [
                             'blib/lib',
                             'blib/arch'
                           ],
-         'perl' => '/opt/local/bin/perl',
+         'perl' => '/usr/bin/perl',
          'dist_author' => [
                             'Nick Youngblut <nyoungb2@illinois.edu>'
                           ],
@@ -93,7 +93,7 @@ do{ my $x = [
                              ],
          'release_status' => 'stable',
          'needs_compiler' => '',
-         'orig_dir' => '/Users/nick/perl/projects/NY_misc_perl',
+         'orig_dir' => '/home/nyoungb2/perl/projects/NY_misc_perl',
          'include_dirs' => [],
          'installdirs' => 'site',
          'mymetafile' => 'MYMETA.yml',
@@ -113,6 +113,7 @@ do{ my $x = [
                              './bin/get_RAST_jobs.pl',
                              './bin/proc_track.pl',
                              './bin/gap_rm.pl',
+                             './bin/matrix_make_symmetric.pl',
                              './bin/scaffold_cat.pl'
                            ],
          'build_script' => 'Build',

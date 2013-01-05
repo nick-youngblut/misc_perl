@@ -7,53 +7,79 @@ use Pod::Usage;
 use Data::Dumper;
 use Getopt::Long;
 use File::Spec;
-use POSIX qw/strftime/;
 
 ### args/flags
 pod2usage("$0: No files given.") if ((@ARGV == 0) && (-t STDIN));
 
-my ($verbose, $ntime, $pid, $email);
+my ($verbose, $ntime, $pid, $email, $cmd);
 GetOptions(
 	   "step=i" => \$ntime,
-	   "proc=s" => \$pid,			# process to run
+	   "proc=s" => \$pid,			# pid to track
 	   "mail=s" => \$email,			
+	   "command=s" => \$cmd, 		# command
 	   "verbose" => \$verbose,
 	   "help|?" => \&pod2usage # Help
 	   );
 
 ### I/O error & defaults
-die " ERROR: provide a pid\n" if ! $pid;
+die " ERROR: provide a pid or a command ('-p' or '-c')\n" if (! $pid && ! $cmd) || ($pid && $cmd);
 $ntime = 60 if ! $ntime;
 
-my $out = `ps aux | egrep "^[a-zA-Z0-9]+ +$pid +"`;
-die " ERROR: PID '$pid' not found!\n" if ! $out;
+if($pid){
+	my $out = `ps aux | egrep "^[a-zA-Z0-9]+ +$pid +"`;
+	die " ERROR: PID '$pid' not found!\n" if ! $out;
 
-print STDERR "PID: $pid\n";
-print STDERR "Log every: $ntime seconds\n";
+	print STDERR "PID: $pid\n";
+	print STDERR "Log every: $ntime seconds\n";
+	}
 
 my $start = time();
 
 ### MAIN
-while(1){
-	my $out = `ps aux | egrep "^[a-zA-Z0-9]+ +$pid +"`;
-	$out =~ s/ +/\t/g;
-	my @out = split /\n|\n/, $out;
-	print join("\n", @out), "\n";
-
-	if(! @out){			# pid gone
-		# time to completion #
-		my $end = time();
-		my $duration = $end - $start;
-		#my $durm = sprintf("%.2f", $duration / 60);
-		#my $durh =  sprintf("%.2f", $durm / 60);
-		
-		# notification #	
-		`echo $0 done | mailx -s "PID: $pid done\nFollowed the job for $duration seconds." $email` if $email;
-		print STDERR "$pid job done\nFollowed the job for $duration seconds\n";
-		exit; 
+if(! $pid){		# if running command
+	my @pids;	
+	my $pid = fork();
+	if($pid){		# if parent
+		push(@pids, $pid);
+		follow_pid($pid);
 		}
-	sleep $ntime;
+	else{			# if child
+		`$cmd`;
+		exit;
+		}
+	foreach my $child (@pids){
+		my $pid = waitpid($child, 0);
+		print "$pid finished\n";
+		}
 	}
+else{		# if following a pid provided pid
+	follow_pid($pid);
+	}
+
+# follow pid #
+sub follow_pid{
+	my ($pid) = @_;
+	while(1){
+		my $out = `ps aux | egrep "^[a-zA-Z0-9]+ +$pid +"`;
+		$out =~ s/ +/\t/g;
+		my @out = split /\n|\n/, $out;
+	
+		if(! @out || $out[0] =~ /<defunct>$/){			# pid gone
+			# time to completion #
+			my $end = time();
+			my $duration = $end - $start;
+
+			# notification #	
+			`echo "PID: $pid done\nFollowed the job for $duration seconds." | mailx -s "$0 job done" $email` if $email;
+			print STDERR "$pid job done\nFollowed the job for $duration seconds\n";
+			last;
+			}
+		print join("\n", @out), "\n";	
+		
+		sleep $ntime;
+		}
+	}
+	
 
 __END__
 
@@ -61,15 +87,23 @@ __END__
 
 =head1 NAME
 
-proc_track.pl -- Track 'top' output for a process (pid)
+proc_track.pl -- Tracking of 'ps aux' for a process.
 
 =head1 SYNOPSIS
+
+=head2 Provide a command
+
+proc_track.pl [-s] [-m] -c > proc.log
+
+=head2 Provide a PID
 
 proc_track.pl [-s] [-m] -p > proc.log
 
 =head2 options
 
 =over
+
+=item -c 	Command to execute and follow.
 
 =item -p 	PID (process ID). Use 'top' to find it.
 
@@ -89,13 +123,19 @@ perldoc proc_track.pl
 
 =head1 DESCRIPTION
 
-Basically log continual 'ps aux' 
+Continually log 'ps aux' for a process. If a command is executed,
+this script will fork a child process and execute the command; the
+parent will then follwo the child process.
 
 =head1 EXAMPLES
 
-=head2 with email reminder
+=head2 Providing a command
 
-proc_track.pl -p 1214 -m nyoungb2@illinois.edu > pid1214.log
+proc_track.pl -m nyoungb2@illinois.edu -c "sleep 120" > cmd.log
+
+=head2 Providing a PID
+
+proc_track.pl -m nyoungb2@illinois.edu -p 1214 > pid1214.log
 
 =head1 AUTHOR
 
@@ -103,7 +143,7 @@ Nick Youngblut <nyoungb2@illinois.edu>
 
 =head1 AVAILABILITY
 
-sharchaea.life.uiuc.edu:/home/git/NY_misc_perl
+sharchaea.life.uiuc.edu:/home/git/NY_misc_perl/
 
 =head1 COPYRIGHT
 
