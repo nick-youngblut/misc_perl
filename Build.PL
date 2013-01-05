@@ -10,8 +10,8 @@ my @binscripts = grep(/.pl$/, @binfiles);
 @binscripts = map{$_ = "./bin/" . $_} @binscripts;
 
 my $builder = Module::Build->new(
-    module_name         => 'misc_perl_NY',
-    license             => 'Perl_5',
+    module_name         => 'NY_misc_perl',
+    license             => 'perl',
     dist_author         => q{Nick Youngblut <nyoungb2@illinois.edu>},
     dist_version_from   => 'lib/misc_perl_NY.pm',
     release_status      => 'stable',

@@ -1,0 +1,5 @@
+69494	Methanosarcina mazei 3.H.T.1A.1
+#69493	Methanosarcina mazei 3.H.M.1B.5
+
+
+# test
