@@ -27,26 +27,26 @@ do{ my $x = [
                                     'conflicts',
                                     'recommends'
                                   ],
-         'base_dir' => '/home/nyoungb2/perl/projects/NY_misc_perl',
+         'base_dir' => '/Users/nick/perl/projects/NY_misc_perl',
          'allow_mb_mismatch' => 0,
          'xs_files' => undef,
          'destdir' => undef,
          'metafile' => 'META.yml',
-         'mb_version' => '0.3607',
+         'mb_version' => '0.3603',
          'use_tap_harness' => 0,
          'test_file_exts' => [
                                '.t'
                              ],
          'dist_name' => 'misc_perl_NY',
          'has_config_data' => undef,
-         'install_base' => '/home/nyoungb2/perl5',
+         'install_base' => undef,
          'module_name' => 'misc_perl_NY',
          'recursive_test_files' => undef,
          'libdoc_dirs' => [
                             'blib/lib',
                             'blib/arch'
                           ],
-         'perl' => '/usr/bin/perl',
+         'perl' => '/opt/local/bin/perl',
          'dist_author' => [
                             'Nick Youngblut <nyoungb2@illinois.edu>'
                           ],
@@ -64,17 +64,7 @@ do{ my $x = [
          'meta_merge' => {},
          'get_options' => {},
          'dist_version_from' => 'lib/misc_perl_NY.pm',
-         '_added_to_INC' => [
-                              '/home/nyoungb2/perl5/lib/perl5/x86_64-linux-gnu-thread-multi',
-                              '/home/nyoungb2/perl5/lib/perl5',
-                              '/opt/aligners/perl',
-                              '/usr/local/bin',
-                              '/opt/vcftools_0.1.9/bin/',
-                              '/opt/iCORN-v0.97/',
-                              '/opt/RAST_api/lib/',
-                              '/opt/RepeatMasker/',
-                              '/usr/local/lib/perl/5.14.2/'
-                            ],
+         '_added_to_INC' => [],
          'auto_configure_requires' => 1,
          'create_license' => undef,
          'debugger' => undef,
@@ -92,7 +82,7 @@ do{ my $x = [
                              ],
          'release_status' => 'stable',
          'needs_compiler' => '',
-         'orig_dir' => '/home/nyoungb2/perl/projects/NY_misc_perl',
+         'orig_dir' => '/Users/nick/perl/projects/NY_misc_perl',
          'include_dirs' => [],
          'installdirs' => 'site',
          'mymetafile' => 'MYMETA.yml',
@@ -109,8 +99,9 @@ do{ my $x = [
          'quiet' => undef,
          'extra_compiler_flags' => [],
          'script_files' => [
-                             './bin/pileup2fasta.pl',
-                             './bin/multi_mpileup.pl'
+                             './bin/gap_rm.pl',
+                             './bin/matrix_make_symmetric.pl',
+                             './bin/scaffold_cat.pl'
                            ],
          'build_script' => 'Build',
          'original_prefix' => {},
