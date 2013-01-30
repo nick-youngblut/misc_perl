@@ -57,6 +57,7 @@ sub load_job_list{
 		next if /^\s*$/;			# not including spaces
 		s/ +/_/g;
 		my @tmp = split /\t/;
+		die " ERROR: file is not in 2 column format\n" if scalar @tmp != 2;
 		$jobs{$tmp[0]} = $tmp[1];
 		}	
 		#print Dumper %jobs; exit;
@@ -87,6 +88,8 @@ get_RAST_jobs.pl -u -p -j [-f]
 =item -p 	Password for RAST server
 
 =item -j 	Job ID file
+
+=item -f 	Output format (genbank, gff3, fasta). [genbank]
 
 =item -h	This help message
 
