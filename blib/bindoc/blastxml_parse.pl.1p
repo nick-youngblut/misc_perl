@@ -136,23 +136,24 @@ blastxml_parse.pl \-\- Parse blast output (xml format)
 blastxml_parse.pl [options] < file.blast.xml > file.blast.txt
 .SS "options"
 .IX Subsection "options"
-.RS 4
-\&\-item \-taxa_summary		Print a summary of taxa hit
-.Sp
-\&\-evalue		e\-value cutoff (examples: '10' or '1e\-5'). [10]
-.Sp
-\&\-hit_length		Hit length (gaps included)
-.Sp
-\&\-query_length		Query length (gaps included)
-.Sp
-\&\-percent_identity		Percent identity (values from 0\-100)
-.Sp
-\&\-bit_score		Bit score
-.Sp
-\&\-header		Print header? [\s-1TRUE\s0]
-.Sp
-\&\-help	This help message
-.RE
+.IP "\-taxa_summary 		Print a summary of taxa hit" 4
+.IX Item "-taxa_summary 		Print a summary of taxa hit"
+.PD 0
+.IP "\-evalue 			e\-value cutoff (examples: '10' or '1e\-5'). [10]" 4
+.IX Item "-evalue 			e-value cutoff (examples: '10' or '1e-5'). [10]"
+.IP "\-hit_length 		Hit length (gaps included)" 4
+.IX Item "-hit_length 		Hit length (gaps included)"
+.IP "\-query_length 		Query length (gaps included)" 4
+.IX Item "-query_length 		Query length (gaps included)"
+.IP "\-percent_identity 	Percent identity (values from 0\-100)" 4
+.IX Item "-percent_identity 	Percent identity (values from 0-100)"
+.IP "\-bit_score 		Bit score" 4
+.IX Item "-bit_score 		Bit score"
+.IP "\-header 			Print header? [\s-1TRUE\s0]" 4
+.IX Item "-header 			Print header? [TRUE]"
+.IP "\-help			This help message" 4
+.IX Item "-help			This help message"
+.PD
 .SS "For more information:"
 .IX Subsection "For more information:"
 perldoc blastxml_parse.pl
@@ -185,9 +186,3 @@ sharchaea.life.uiuc.edu:/home/git/NY_misc_perl/
 .IX Header "COPYRIGHT"
 Copyright 2010, 2011
 This software is licensed under the terms of the GPLv3
-.SH "POD ERRORS"
-.IX Header "POD ERRORS"
-Hey! \fBThe above document had some coding errors, which are explained below:\fR
-.IP "Around line 159:" 4
-.IX Item "Around line 159:"
-You can't have =items (as at line 163) unless the first thing after the =over is an =item

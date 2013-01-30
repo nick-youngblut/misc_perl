@@ -89,7 +89,7 @@ get_RAST_jobs.pl -u -p -j [-f]
 
 =item -j 	Job ID file
 
-=item -f 	Output format (genbank, gff3, fasta). [genbank]
+=item -f 	Output format (genbank, embl, embl, gff3). Can also add '_stripped'. [genbank]
 
 =item -h	This help message
 
