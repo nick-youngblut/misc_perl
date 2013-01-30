@@ -25,7 +25,7 @@ GetOptions(
 	   "query_length=i" => \$query_length,
 	   "percentID=i" => \$percentID,
 	   "bit_score=i" => \$bit_score,
-	   "taxa_summary" => \$taxa_summary,				# make a summary of taxa hit [FALSE]
+	   "taxa_summary=i" => \$taxa_summary,				# make a summary of taxa hit [FALSE]
 	   "verbose" => \$verbose,
 	   "help|?" => \&pod2usage # Help
 	   );
@@ -51,8 +51,32 @@ while( my $result = $in->next_result ) {		# result object
     			$hsp->bits > $bit_score &&
     			$hsp->evalue < $evalue
     		 	) {
-				if($taxa_summary){
+				if($taxa_summary && $taxa_summary == 1){
 					$tax_sum{$hit->accession}{$hit->description}{$result->query_description}++;
+					}
+				elsif($taxa_summary && $taxa_summary ==2){
+					# summing:
+						# number hits
+						# mean percent id
+						# mean length
+						# mean evalue
+					$tax_sum{$hit->accession}{$hit->description}{"hsp_cnt"}++;
+					$tax_sum{$hit->accession}{$hit->description}{"percentID"} += $hsp->percent_identity;
+					$tax_sum{$hit->accession}{$hit->description}{"length"} += $hsp->hsp_length;
+					$tax_sum{$hit->accession}{$hit->description}{"evalue"} += $hsp->evalue;
+					$tax_sum{$hit->accession}{$hit->description}{"bits"} += $hsp->bits;
+					}
+				elsif($taxa_summary && $taxa_summary ==3){
+					# summing:
+						# number hits
+						# mean percent id
+						# mean length
+						# mean evalue
+					$tax_sum{$hit->accession}{$hit->description}{$result->query_description}{"hsp_cnt"}++;
+					$tax_sum{$hit->accession}{$hit->description}{$result->query_description}{"percentID"} += $hsp->percent_identity;
+					$tax_sum{$hit->accession}{$hit->description}{$result->query_description}{"length"} += $hsp->hsp_length;
+					$tax_sum{$hit->accession}{$hit->description}{$result->query_description}{"evalue"} += $hsp->evalue;
+					$tax_sum{$hit->accession}{$hit->description}{$result->query_description}{"bits"} += $hsp->bits;
 					}
 				else{
 					print join("\t", 
@@ -72,8 +96,9 @@ while( my $result = $in->next_result ) {		# result object
 
 
 # printing taxon summary table #
-if($taxa_summary){
-	print join("\t", qw/hit_accession hit_description query_name hit_count/), "\n" if ! $header;
+exit if ! $taxa_summary;
+if($taxa_summary == 1){			# basic summary
+	print join("\t", qw/hit_accession hit_desc query_name hit_count/), "\n" if ! $header;
 	foreach my $name (keys %tax_sum){
 		foreach my $desc (keys %{$tax_sum{$name}}){
 			foreach my $q (keys %{$tax_sum{$name}{$desc}}){
@@ -82,7 +107,40 @@ if($taxa_summary){
 			}
 		}
 	}
-
+elsif($taxa_summary == 2){	# if more involved summary 	
+	print join("\t", qw/hit_accession hit_desc summary_category value/), "\n" if ! $header;
+	foreach my $name (keys %tax_sum){
+		foreach my $desc (keys %{$tax_sum{$name}}){	
+			foreach my $cat (keys %{$tax_sum{$name}{$desc}}){ 		# summary category
+				if ($cat eq "hsp_cnt"){
+					print join("\t", $name, $desc, $cat, $tax_sum{$name}{$desc}{$cat}), "\n";
+					}
+				else{
+					print join("\t", $name, $desc, $cat, 
+						$tax_sum{$name}{$desc}{$cat} / $tax_sum{$name}{$desc}{"hsp_cnt"}), "\n";
+					}
+				}
+			}
+		}
+	}
+elsif($taxa_summary == 3){	# if more involved summary 	
+	print join("\t", qw/hit_accession hit_desc query_desc summary_category value/), "\n" if ! $header;
+	foreach my $name (keys %tax_sum){
+		foreach my $desc (keys %{$tax_sum{$name}}){	
+			foreach my $q (keys %{$tax_sum{$name}{$desc}}){
+				foreach my $cat (keys %{$tax_sum{$name}{$desc}{$q}}){ 		# summary category
+					if ($cat eq "hsp_cnt"){
+						print join("\t", $name, $desc,$q, $cat, $tax_sum{$name}{$desc}{$q}{$cat}), "\n";
+						}
+					else{
+						print join("\t", $name, $desc, $q, $cat, 
+							$tax_sum{$name}{$desc}{$q}{$cat} / $tax_sum{$name}{$desc}{$q}{"hsp_cnt"}), "\n";
+						}
+					}
+				}
+			}
+		}
+	}
 
 __END__
 
@@ -126,8 +184,7 @@ perldoc blastxml_parse.pl
 
 Parse the xml output from blast+ (and probably blast).
 
-A summary of taxa hit can also be produced.
-
+A summary of taxa hit can also be produced. The summary can be grouped by different categories.
 
 =head1 EXAMPLES
 
@@ -135,9 +192,17 @@ A summary of taxa hit can also be produced.
 
 blastxml_parse.pl < file.blast.xml > file.blast.txt
 
-=head2 Make a taxa-hit summary taxaml
+=head2 Make a taxa-hit summary count (grouping by hitID & queryID)
 
-blastxml_parse.pl -t < file.blast.xml > file.taxa-hit.txt
+blastxml_parse.pl -taxa 1 < file.blast.xml > file.taxa-hit.txt
+
+=head2 Make a taxa-hit summary stats (grouping by hitID)
+
+blastxml_parse.pl -taxa 2 < file.blast.xml > file.taxa-hit.txt
+
+=head2 Make a taxa-hit summary stats (grouping by hitID & queryID)
+
+blastxml_parse.pl -taxa 3 < file.blast.xml > file.taxa-hit.txt
 
 =head1 AUTHOR
 
