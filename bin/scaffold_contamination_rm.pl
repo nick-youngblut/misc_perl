@@ -49,7 +49,7 @@ die $! if ! -e $blast_file;
 ### Routing main subroutines
 my ($itree_r, $max_len_r) = load_parsed_blast($blast_file);					# loading blast file
 
-#foreach my $q (keys %$itree_r){ print_interval_tree($$itree_r{$q}, $$max_len_r{$q}); } exit;
+#foreach my $q (keys %$itree_r){ print_interval_tree($$itree_r{$q}, $$max_len_r{$q}); } exit;		# for debugging
 
 my $merged_hits_r = merge_hits($itree_r, $max_len_r);
 my $fasta_r = load_fasta($ref_file);										# loading scaffolds
@@ -57,22 +57,22 @@ $fasta_r = scaffold_split($fasta_r, $merged_hits_r, $keep_cut, $len_cut);
 write_fasta($fasta_r);
 
 
-#my $tmpfile = blast_2_hsp_table_2_fasta($blast_file);						# loading blast_2_hsp_table results
-#my $res_ref = nucmer_map($tmpfile, $ref_file, $cov_cut, $seqID_cut);		# mapping sequences
-#scaffold_split($fasta_ref, $res_ref, $keep_cut, $len_cut);
-
 #----------------------Subroutines----------------------#
 sub write_fasta{
-# writing out fasta 
+# writing out fasta #
 	}
 
 sub scaffold_split{
 # removing sections of scaffold based on blast hits # 
 	my ($fasta_r, $merged_hits_r, $keep_cut, $len_cut) = @_;
 	
+	# staring stats #
 	my %filter_stats;
-	my %filter_log;
 	$filter_stats{"seq_starting"} = scalar keys %$fasta_r;
+	map{ $filter_stats{"length_starting_total"} += length $$fasta_r{$_} } keys %$fasta_r;
+	
+	# removing contaminating segments #
+	my %filter_log;
 	foreach my $q (keys %$merged_hits_r){
 		die " ERROR: $q not found in fasta file!\n" if ! exists $$fasta_r{$q};
 		
@@ -87,7 +87,6 @@ sub scaffold_split{
 		
 		my $seq_len_rm = length $$fasta_r{$q};
 		$filter_log{$q}{"length_starting"} =  $seq_len;
-		$filter_stats{"length_starting_total"} += $seq_len;
 		$filter_log{$q}{"length_cut"} =  $seq_len - $seq_len_rm;
 		$filter_log{$q}{"length_remaining"} =  $seq_len_rm;
 		$filter_stats{"length_cut_total"} +=  $seq_len - $seq_len_rm;
@@ -107,7 +106,7 @@ sub scaffold_split{
 
 	write_filter_log(\%filter_stats, \%filter_log);
 		#print Dumper %filter_stats; exit;
-		#print Dumper %$fasta_r; exit;		
+		#print Dumper scalar keys %$fasta_r; exit;		
 	return $fasta_r;
 	}
 
@@ -144,6 +143,7 @@ sub write_filter_log{
 
 sub merge_hits{
 # merging overlapping hits in the same query #
+# keeping locations not hit w/ contamination #
 	my ($itree_r, $max_len_r) = @_;
 	
 	my %merged_hits;
@@ -152,10 +152,11 @@ sub merge_hits{
 		my $cnt = 0;
 		for my $i (0..$$max_len_r{$q}){
 			my $res = $$itree_r{$q}->fetch($i, $i);
-			push(@{$merged_hits{$q}},  $i) if $res;
+			push(@{$merged_hits{$q}},  $i) if ! @$res;
 			}
 		}
-		#print Dumper %merged_hits; exit;
+		#print Dumper sort keys %merged_hits; exit;
+		#exit;
 	return \%merged_hits;		# %{query}{fragmentID}{start|end}=index
 	}
 
@@ -169,6 +170,7 @@ sub load_parsed_blast{
 	my %itree;
 	my %max_len;
 	while(<IN>){
+		chomp;
 		if($.==1){		# header 
 			die " ERROR: the blast table header appears to be formatted incorrectly!\n"
 				if ! /bit/i && ! /value/i;		# checking for 'bit' and 'value' in header
@@ -180,19 +182,24 @@ sub load_parsed_blast{
 			if(! exists $itree{$tmp[0]}){
 				$itree{$tmp[0]} = Set::IntervalTree->new();
 				}
-			$itree{$tmp[0]} -> insert(1, $tmp[6] -1 , $tmp[7] +1);
+			die " ERROR: start position is > end position ($tmp[7] > $tmp[8])\n"
+				if $tmp[7] > $tmp[8];
+				
+				#print Dumper join("-", @tmp[7..8]);
+			$itree{$tmp[0]} -> insert(1, $tmp[7] -1 , $tmp[8] +1);
 			
 			# getting max index #
 			if(! exists $max_len{$tmp[0]}){
-				$max_len{$tmp[0]} = $tmp[7];
+				$max_len{$tmp[0]} = $tmp[8];
 				}
 			else{
-				$max_len{$tmp[0]} = $tmp[7] if $tmp[7] > $max_len{$tmp[0]};		
+				$max_len{$tmp[0]} = $tmp[8] if $tmp[8] > $max_len{$tmp[0]};		
 				}
 			
 			}
 		}
-	
+
+		#print Dumper scalar keys %itree; exit;
 	close IN;
 	return \%itree, \%max_len;
 	}
@@ -233,137 +240,6 @@ sub load_fasta{
 	} 
 
 
-################### LEGACY ####################
-sub blast_2_hsp_table_2_fasta{
-	my $blast_file = shift;
-	open IN, $blast_file or die $!;
-	
-	my $tmpfile = File::Temp->new();
-	open OUT, ">$tmpfile" or die $!;
-
-	my %fasta; 		# needed to remove duplicates
-	while(<IN>){
-		my @line = split /\t/;
-		$line[17] =~ s/-/N/g;
-		$fasta{$line[17]} = 1;
-		}
-	close IN;
-		
-	my $cnt = 1;
-	foreach(keys %fasta){
-		print OUT join("\n", ">$cnt", $_), "\n";
-		$cnt++;
-		}
-	close OUT;
-		
-	die " ERROR: no sequences found in $blast_file\n" if ! keys %fasta;
-	return $tmpfile;
-	}
-
-sub nucmer_map{
-
-	my ($tmpfile, $ref_file, $cov_cut, $seqID_cut) = @_;
-	
-	print STDERR "...Nucmer mapping\n";
-	
-	# getting file name for output #
-	my @parts = File::Spec->splitpath($ref_file);
-	
-	# mapping reads with nucmer #
-	if($verbose){ 
-		print STDERR "nucmer -maxmatch -c 100 -p .nucmer $ref_file $tmpfile\n";
-		`nucmer -maxmatch -c 100 -p .nucmer $ref_file $tmpfile`; 
-		}
-	else{ `nucmer -maxmatch -c 100 -p .nucmer $ref_file $tmpfile 2>/dev/null`; }
-	`delta-filter -r .nucmer.delta > .nucmer.delta.filter`;
-	open PIPE, "show-coords -r -c -l -T -H .nucmer.delta.filter |" or die $!;
-	
-	# making file for hits rejected & those that were the top hits #
-	open REJECT, "> nucmer.reject.txt" or die $!;
-	open TOPHIT, "> nucmer.tophits.txt" or die $!;
-	
-	my %res;					# checking for unique (or best) hit. Best = coverage & seqID
-	my @queries;				# checking for any queries that had no hits above cutoff
-	while (<PIPE>){
-		chomp;
-		# 12 = query name
-		# 10 = query coverage
-		# 6 = % ID
-			#print $_;				# printing out nucmer output
-		my @line = split /\t/;
-		push @queries, $line[12];
-		
-		if ($line[10] < $cov_cut || $line[6] < $seqID_cut){
-			print REJECT $_;
-			next;
-			}
-		next if exists $res{$line[12]} && $res{$line[12]}{"coverage"} > $line[10];		# next if current hit is lower coverage
-		next if exists $res{$line[12]} && $res{$line[12]}{"seqID"} > $line[6]; 			# next if current hit is lower SeqID
-
-		$res{$line[12]}{"coverage"} = $line[10];
-		$res{$line[12]}{"seqID"} = $line[6];
-		$res{$line[12]}{"res"} = \@line;
-		}
-	
-	close PIPE;
-	close REJECT;
-	
-	# removing tmp files #
-	my @rm_list = qw/.nucmer.delta .nucmer.delta.filter/;
-	foreach(@rm_list){ unlink $_ or die $! if -e $_; }
-	
-	# writing top hits #
-	foreach (sort keys %res){
-		print TOPHIT join("\t", @{$res{$_}{"res"}}), "\n";
-		}
-	close TOPHIT;	
-	
-	# checking to see if any queries did not make cutoffs #
-	foreach(@queries){
-		print STDERR " WARNING: Contig $_ did not hit any scaffold above cutoffs\n" 
-			if ! exists $res{$_};
-		}
-	
-	# if no hits #
-	die " NO HITS FOUND ABOVE CUTOFF!\n" if ! keys %res;
-	
-	return \%res;
-	}
-
-
-sub usage {
- my $usage = <<HERE;
-Usage:
-  scaffold_contamination_rm.pl -r -b [options] > scaffolds.fna
-Options:
-  -r 	fasta of scaffolds.
-  -b 	blast_2_hsp_table output
-  -c 	coverage cutoff for nucmer hits [95]
-  -s 	sequence identity cutoff for nucmer hits [95]
-  -k 	cutoff for percent of scaffold that must be left 
-  		after contaminantion removal [75]
-  -l 	length cutoff for keeping a fragment of a scaffold [100] bp
-Description:
-  Remove contamination from scaffolds.
-  Provide a blast table (blast_2_hsp_table) output
-  that identifies contamination.
-  These regions are identified in the scaffolds by nucmer mapping.
-  The regions are removed and the remaining fragments of the
-  scaffold are kept if the fragment length or total length of 
-  scaffold remaining meets the cutoffs (-k & -l).
-  A warning is provided if a contaminating contig is not found 
-  in the scaffold file.
-Notes:
-  Version: $version
-  Last Modified: $mod
-  Author: $author
-Categories:
-  Genome assembly
-
-HERE
-	print $usage;
-    exit(1);
-}
 
 __END__
 
