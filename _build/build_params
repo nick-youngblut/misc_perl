@@ -115,6 +115,7 @@ do{ my $x = [
                              './bin/proc_track.pl',
                              './bin/gap_rm.pl',
                              './bin/matrix_make_symmetric.pl',
+                             './bin/scaffold_contamination_rm.pl',
                              './bin/scaffold_cat.pl',
                              './bin/blastxml_parse.pl'
                            ],
