@@ -13,7 +13,7 @@ use Bio::SearchIO;
 pod2usage("$0: No files given.") if ((@ARGV == 0) && (-t STDIN));
 
 my $evalue = 10;
-my $hit_length = 0;
+my $hsp_length = 0;
 my $query_length = 0;
 my $percentID = 0;
 my $bit_score = 0;
@@ -21,7 +21,7 @@ my ($verbose, $taxa_summary, $header);
 GetOptions(
 	   "header" => \$header,								# [TRUE]
 	   "evalue=s" => \$evalue,
-	   "hit_length=i" => \$hit_length,
+	   "hsp_length=i" => \$hsp_length,
 	   "query_length=i" => \$query_length,
 	   "percentID=i" => \$percentID,
 	   "bit_score=i" => \$bit_score,
@@ -37,7 +37,7 @@ my $in = Bio::SearchIO->new(-format => "blastxml", -fh => \*STDIN);
 
 # header #
 if(! $taxa_summary && ! $header){
-	print join("\t", qw/query_desc hit_accession hit_desc perc_id hsp_length evalue bit_score/), "\n";
+	print join("\t", qw/query_desc hit_accession hit_desc perc_id evalue bit_score hsp_length q_start q_end hit_start hit_end/), "\n";
 	}
 
 my %tax_sum;									# Summary table of taxa hit (query, hit-gi, hit-desc, count) 
@@ -46,7 +46,7 @@ while( my $result = $in->next_result ) {		# result object
 		while( my $hsp = $hit->next_hsp ) {			# hsp object
      		 # filtering #
 			if( $hsp->length('query') >= $query_length &&
-    			$hsp->length('hit') >= $hit_length &&
+    			$hsp->hsp_length >= $hsp_length &&
     			$hsp->percent_identity >= $percentID &&
     			$hsp->bits > $bit_score &&
     			$hsp->evalue < $evalue
@@ -84,9 +84,13 @@ while( my $result = $in->next_result ) {		# result object
 						$hit->accession,						# accession
 						$hit->description,					# qdescription
 						$hsp->percent_identity,				# pidnet (percentID)
-						$hsp->hsp_length,					# length
 						$hsp->evalue,						# evalue
-						$hsp->bits							# bit score
+						$hsp->bits,							# bit score
+						$hsp->hsp_length,					# length
+						$hsp->start('query'),				# start and end locations
+						$hsp->end('query'),
+						$hsp->start('hit'),
+						$hsp->end('hit')
 						), "\n";
         			}
        			} 
@@ -162,7 +166,7 @@ blastxml_parse.pl [options] < file.blast.xml > file.blast.txt
 
 =item -evalue 			e-value cutoff (examples: '10' or '1e-5'). [10]
 
-=item -hit_length 		Hit length (gaps included)
+=item -hsp_length 		Hit length (gaps included)
 
 =item -query_length 		Query length (gaps included)
 

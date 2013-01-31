@@ -141,8 +141,8 @@ blastxml_parse.pl [options] < file.blast.xml > file.blast.txt
 .PD 0
 .IP "\-evalue 			e\-value cutoff (examples: '10' or '1e\-5'). [10]" 4
 .IX Item "-evalue 			e-value cutoff (examples: '10' or '1e-5'). [10]"
-.IP "\-hit_length 		Hit length (gaps included)" 4
-.IX Item "-hit_length 		Hit length (gaps included)"
+.IP "\-hsp_length 		Hit length (gaps included)" 4
+.IX Item "-hsp_length 		Hit length (gaps included)"
 .IP "\-query_length 		Query length (gaps included)" 4
 .IX Item "-query_length 		Query length (gaps included)"
 .IP "\-percent_identity 	Percent identity (values from 0\-100)" 4
