@@ -24,13 +24,11 @@ pod2usage("$0: No files given.") if ((@ARGV == 0) && (-t STDIN));
 
 ### I/O
 my ($verbose, $ref_file, $blast_file, $cov_cut, $seqID_cut);
-my $keep_cut = 50;
+my $keep_cut = 25;
 my $len_cut = 500;
 GetOptions(
 	   "fasta=s" => \$ref_file,
 	   "blast=s" => \$blast_file,
-	   "coverage=i" => \$cov_cut,
-	   "sequence=i" => \$seqID_cut,
 	   "keep=i" => \$keep_cut,				# drop contig if < $keep_cut is left (percentage length)
 	   "length=i" => \$len_cut,				# minimum length of each contig written
 	   "verbose" => \$verbose,
@@ -60,14 +58,26 @@ write_fasta($fasta_r);
 #----------------------Subroutines----------------------#
 sub write_fasta{
 # writing out fasta #
+	my $fasta_r = shift;
+	foreach my $seq (sort keys %$fasta_r){
+		print join("\n", ">$seq", $$fasta_r{$seq}), "\n";
+		}
+	
 	}
 
 sub scaffold_split{
 # removing sections of scaffold based on blast hits # 
 	my ($fasta_r, $merged_hits_r, $keep_cut, $len_cut) = @_;
 	
+	#print Dumper $merged_hits_r; exit;
+	
 	# staring stats #
 	my %filter_stats;
+	$filter_stats{"split"} = 0;
+	$filter_stats{"split_cnt"} = 0;
+	$filter_stats{"length_cut_total"}  = 0;
+	$filter_stats{"seq_rm"} = 0;
+	
 	$filter_stats{"seq_starting"} = scalar keys %$fasta_r;
 	map{ $filter_stats{"length_starting_total"} += length $$fasta_r{$_} } keys %$fasta_r;
 	
@@ -76,37 +86,47 @@ sub scaffold_split{
 	foreach my $q (keys %$merged_hits_r){
 		die " ERROR: $q not found in fasta file!\n" if ! exists $$fasta_r{$q};
 		
-		# converting from string to array and pulling out fragments #		
+		# substringing sequence #
+		my @frags;
+		my $frag_len_total = 0;
+		foreach my $frag (keys %{$$merged_hits_r{$q}}){
+			push(@frags, substr($$fasta_r{$q}, $$merged_hits_r{$q}{$frag}{"start"}, 
+				$$merged_hits_r{$q}{$frag}{"end"} - $$merged_hits_r{$q}{$frag}{"start"}) );
+			$frag_len_total += length $frags[$#frags];
+			}
+		
+		# delete original sequence #
 		my $seq_len = length $$fasta_r{$q};
-		$$fasta_r{$q} = [ (split //, $$fasta_r{$q} )[@{$$merged_hits_r{$q}}] ];
-		$$fasta_r{$q} = join("", @{$$fasta_r{$q}});
+		delete $$fasta_r{$q};
 		
 		# filtering #
-		my $cnt;
-		$cnt++ while ($$fasta_r{$q} =~ /[ATCG]/g);
-		
-		my $seq_len_rm = length $$fasta_r{$q};
-		$filter_log{$q}{"length_starting"} =  $seq_len;
-		$filter_log{$q}{"length_cut"} =  $seq_len - $seq_len_rm;
-		$filter_log{$q}{"length_remaining"} =  $seq_len_rm;
-		$filter_stats{"length_cut_total"} +=  $seq_len - $seq_len_rm;
-
-		if( (length $$fasta_r{$q}) / $seq_len * 100 < $keep_cut ||
-			$cnt < $len_cut ){
-			delete $$fasta_r{$q};
+		if($frag_len_total / $seq_len * 100 < $keep_cut){
 			$filter_stats{"seq_rm"}++;
-			$filter_log{$q}{"kept_remove"} = "removed";
-			}
-		else{
-			$filter_log{$q}{"kept_remove"} = "kept";
-			}
+			$filter_stats{"length_cut_total"} += $seq_len;
+			next;
+			};			# if total fragment length % is < starting 
 		
-		}
-	#$filter_stats{"seq_remaining"} = $filter_stats{"seq_rm"} / $filter_stats{"seq_starting"} * 100;
+		my $keep_cnt = 0;
+		for my $i (0..$#frags){
+			if (length $frags[$i] < $len_cut){
+				$filter_stats{"length_cut_total"} += length $frags[$i];			# if fragment remaining is < lenght cutoff
+				}
+			else{
+				$$fasta_r{ join("_", $q, $i+1, length $frags[$i]) } = $frags[$i];
+				$keep_cnt++;
+				}
+			}
 
-	write_filter_log(\%filter_stats, \%filter_log);
+		if (! $keep_cnt){ $filter_stats{"seq_rm"}++;}
+		else{ 
+			$filter_stats{"split"}++; 
+			$filter_stats{"split_cnt"} += $keep_cnt;
+			}
+		}
+	write_filter_log(\%filter_stats);
+		
 		#print Dumper %filter_stats; exit;
-		#print Dumper scalar keys %$fasta_r; exit;		
+		#print Dumper %$fasta_r; exit;		
 	return $fasta_r;
 	}
 
@@ -117,19 +137,25 @@ sub write_filter_log{
 
 	# writing basic stats #
 	print STDERR "### Sequences removed stats ###\n";
-	print STDERR "Sequences starting: 	", $$log_r{"seq_starting"}, "\n";
-	print STDERR "Sequences removed: 	", $$log_r{"seq_rm"}, "\n";
-	print STDERR "Percent remaining:	", 
-		sprintf("%.1f", ($$log_r{"seq_starting"} - $$log_r{"seq_rm"}) / $$log_r{"seq_starting"} * 100), 
+	print STDERR "Sequences starting: 		", $$log_r{"seq_starting"}, "\n";
+	print STDERR "Sequences removed: 		", $$log_r{"seq_rm"}, "\n";
+	print STDERR "Sequences split: 		", $$log_r{"split"}, "\n";
+	print STDERR "Number of new fragments:	", $$log_r{"split_cnt"}, "\n";
+	print STDERR "Sequences remaining: 		", $$log_r{"seq_starting"} - $$log_r{"seq_rm"} + $$log_r{"split_cnt"}, "\n";
+	print STDERR "Percent remaining:		", 
+		sprintf("%.1f", ( $$log_r{"seq_starting"} - $$log_r{"seq_rm"} + $$log_r{"split_cnt"} ) / $$log_r{"seq_starting"} * 100), 
 		"%\n\n";
 	
 	print STDERR "### Length cut stats ###\n";
-	print STDERR "Length starting:	", $$log_r{"length_starting_total"}, "\n";
-	print STDERR "Length cut: 		", $$log_r{"length_cut_total"}, "\n";
-	print STDERR "Percent remaining:	", 
+	print STDERR "Length starting:		", $$log_r{"length_starting_total"}, "\n";
+	print STDERR "Length cut: 			", $$log_r{"length_cut_total"}, "\n";
+	print STDERR "Length remaining:		", $$log_r{"length_starting_total"} - $$log_r{"length_cut_total"}, "\n";
+	print STDERR "Percent remaining:		", 
 		sprintf("%.1f", ($$log_r{"length_starting_total"} - $$log_r{"length_cut_total"}) / $$log_r{"length_starting_total"} * 100), 
 		"%\n\n";
-
+	
+	return;
+	
 	# writing log #
 	open OUT, ">scaffold_contam.log" or die $!;
 	print OUT join("\t", qw/scaffold_id length_starting length_cut length_remaining kept_remove/), "\n";
@@ -152,11 +178,17 @@ sub merge_hits{
 		my $cnt = 0;
 		for my $i (0..$$max_len_r{$q}){
 			my $res = $$itree_r{$q}->fetch($i, $i);
-			push(@{$merged_hits{$q}},  $i) if ! @$res;
+			if(@$res){
+				$cnt++;
+				}
+			else{
+				$merged_hits{$q}{$cnt}{"start"} = $i if ! exists $merged_hits{$q}{$cnt}{"start"};
+				$merged_hits{$q}{$cnt}{"end"} = $i;
+				}
 			}
 		}
-		#print Dumper sort keys %merged_hits; exit;
-		#exit;
+		
+		#print Dumper %merged_hits; exit;
 	return \%merged_hits;		# %{query}{fragmentID}{start|end}=index
 	}
 
@@ -257,15 +289,13 @@ scaffold_contamination_rm.pl -r -b [options] > scaffolds.fna
 
 =over
 
-=item -r 	fasta of scaffolds
+=item -f 	Fasta of scaffolds.
 
-=item -b 	blast_2_hsp_table output
+=item -b 	Blast_2_hsp_table output.
 
-=item -c 	length cutoff [95]
+=item -l 	Fragment Length cutoff (bp). [100]
 
-=item -s 	sequence identity cutoff [95]
-
-=item -k 	cutoff for percent of scaffold that must be left after contaminantion removal [75]
+=item -k 	Cutoff for % of scaffold that must be left after contaminantion removal [25]
   		
 =item -h 	This help message
 
@@ -279,20 +309,29 @@ perldoc scaffold_contamination_rm.pl
 
 Remove contamination from scaffolds while retain uncomtaminated portions.
 
-Contamination is identified via BLAST.
+Contamination is identified via blastn.
 
-Provide a parsed blast table (output parsed by blastxml_parse.pl; normal output).
+The blast results must be in xml format and then parsed by blastxml_parse.pl. 
 
-These regions are identified in the scaffolds by nucmer mapping.
-The regions are removed and the remaining fragments of the scaffold are kept if 
-the fragment length or total length of scaffold remaining meets the cutoffs (-k & -l).
-A warning is provided if a contaminating contig is not found in the scaffold file.
+Scaffolds containing contamination are split into multiple contigs/scaffolds.
+These split scaffolds can be filtered out if they are too short or if only a small
+percentage of the original scaffold remains. Split scaffolds that are kept will have
+'_\d+_\d+' added to each split scaffold sequence name. The first number is the 
+split number and the second is the length of the fragment (includes gaps).
 
 =head1 EXAMPLES
 
-=head2 Parse blast output
+=head2 blastn
 
-scaffold_contamination_rm.pl < file.blast.xml > file.blast.txt
+blastn -db nt -query scaffolds.fna -out scaffolds.blast.xml -max_target_seqs 1 -max_hsps_per_subject 1 -evalue 0.00001 -outfmt 5
+
+=head2 Parse blast output (only hsps >= 100bp)
+
+blastxml_parse.pl < scaffolds.blast.xml -hsp_length 100 > contam.blast.txt
+
+=head2 Remove contamination
+
+scaffold_contamination_rm.pl -b contam.blast.txt -f scaffolds.fna > scaffolds_clean.fna
 
 =head1 AUTHOR
 
