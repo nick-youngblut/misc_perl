@@ -37,7 +37,7 @@ my $in = Bio::SearchIO->new(-format => "blastxml", -fh => \*STDIN);
 
 # header #
 if(! $taxa_summary && ! $header){
-	print join("\t", qw/query_desc hit_accession hit_desc perc_id hsp_length evalue bit_score/), "\n";
+	print join("\t", qw/query_desc hit_accession hit_desc perc_id evalue bit_score hsp_length q_start q_end hit_start hit_end/), "\n";
 	}
 
 my %tax_sum;									# Summary table of taxa hit (query, hit-gi, hit-desc, count) 
@@ -84,9 +84,13 @@ while( my $result = $in->next_result ) {		# result object
 						$hit->accession,						# accession
 						$hit->description,					# qdescription
 						$hsp->percent_identity,				# pidnet (percentID)
-						$hsp->hsp_length,					# length
 						$hsp->evalue,						# evalue
-						$hsp->bits							# bit score
+						$hsp->bits,							# bit score
+						$hsp->hsp_length,					# length
+						$hsp->start('query'),				# start and end locations
+						$hsp->end('query'),
+						$hsp->start('hit'),
+						$hsp->end('hit')
 						), "\n";
         			}
        			} 
