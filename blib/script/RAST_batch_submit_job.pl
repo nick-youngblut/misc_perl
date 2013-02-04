@@ -26,7 +26,6 @@ GetOptions(
 die " ERROR: provide a username and password!\n" if ! $username || ! $password;
 die " ERROR: provide a job submission table!\n" if ! $sub_in || ! -e $sub_in;
 
-my $jobfh = make_job_fh($sub_in);
 
 ### MAIN
 my $sub_tbl_r = load_submission_table($sub_in);
@@ -38,35 +37,11 @@ foreach my $job (sort {$a <=> $b} keys %$sub_tbl_r){
 		}
 	my $cmd = join(" ", "svr_submit_RAST_job", "--user $username", "--passwd $password", @line);
 	print STDERR "$cmd\n";
-	my $out = `$cmd`;
-	
-	# checking for errors #
-	if($out !~ /Job.+successfully/i){
-		die " ERROR: job submission did not complete correctly!\n$out\n";
-		}
-	
-	# writing job IDs #
-	$out =~ s/\n//g;
-	$out =~ s/[^0-9]+(\d+).+/$1/;
-	print STDERR $out, "\n";
-	print $jobfh $out, "\n";
+	system($cmd);
 	}
-
-close $jobfh;
 
 
 ### Subroutines
-sub make_job_fh{
-	my $sub_in = shift;
-	
-	(my $job_name = $sub_in) =~ s/\.[^\.]+$|$/_jobid.txt/;
-	open my $jobfh, ">$job_name" or die $!;
-	
-	print STDERR " Job IDs will be written to '$job_name\n";
-	
-	return $jobfh;
-	}
-
 sub load_submission_table{
 # loading a submission table for batch job submission to RAST #
 	my ($sub_in) = @_;
