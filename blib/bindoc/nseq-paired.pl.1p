@@ -123,65 +123,43 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "BLASTXML_PARSE 1"
-.TH BLASTXML_PARSE 1 "2013-02-05" "perl v5.14.2" "User Contributed Perl Documentation"
+.IX Title "NSEQ-PAIRED 1"
+.TH NSEQ-PAIRED 1 "2013-02-04" "perl v5.14.2" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
 .SH "NAME"
-blastxml_parse.pl \-\- Parse blast output (xml format)
+nseq\-paired.pl \-\- Count the number of paired\-end reads in a file
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-blastxml_parse.pl [options] < file.blast.xml > file.blast.txt
+nseq\-paired.pl [options] file1.fasta file2.fasta ...
 .SS "options"
 .IX Subsection "options"
-.IP "\-taxa_summary" 4
-.IX Item "-taxa_summary"
-Print a summary of taxa hit
-.IP "\-evalue" 4
-.IX Item "-evalue"
-e\-value cutoff (examples: '10' or '1e\-5'). [10]
-.IP "\-hsp_length" 4
-.IX Item "-hsp_length"
-Hit length (gaps included)
-.IP "\-query_length" 4
-.IX Item "-query_length"
-Query length (gaps included)
-.IP "\-percent_identity" 4
-.IX Item "-percent_identity"
-Percent identity (values from 0\-100)
-.IP "\-bit_score" 4
-.IX Item "-bit_score"
-Bit score
-.IP "\-header" 4
-.IX Item "-header"
-Print header? [\s-1TRUE\s0]
-.IP "\-help" 4
-.IX Item "-help"
-This help message
+.IP "\-v	Verbose output" 4
+.IX Item "-v	Verbose output"
+.PD 0
+.IP "\-h	This help message" 4
+.IX Item "-h	This help message"
+.PD
 .SS "For more information:"
 .IX Subsection "For more information:"
-perldoc blastxml_parse.pl
+perldoc nseq\-paired.pl
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-Parse the xml output from blast+ (and probably blast).
-.PP
-A summary of taxa hit can also be produced. The summary can be grouped by different categories.
+Counts the number of paired-end reads in a fasta file containing reads.
+The output is in 3 columns (space-delimited): 'file_name' 'total_reads' 'paired\-end_reads'
+.SS "\s-1WARNING\s0"
+.IX Subsection "WARNING"
+.IP "\(bu" 4
+The file(s) must be in fasta format!
+.IP "\(bu" 4
+The read names must be in Illumina software format! Example: '@HWUSI\-EAS100R:6:73:941:1973#0/1'
 .SH "EXAMPLES"
 .IX Header "EXAMPLES"
-.SS "Parse blast output"
-.IX Subsection "Parse blast output"
-blastxml_parse.pl < file.blast.xml > file.blast.txt
-.SS "Make a taxa-hit summary count (grouping by hitID & queryID)"
-.IX Subsection "Make a taxa-hit summary count (grouping by hitID & queryID)"
-blastxml_parse.pl \-taxa 1 < file.blast.xml > file.taxa\-hit.txt
-.SS "Make a taxa-hit summary stats (grouping by hitID)"
-.IX Subsection "Make a taxa-hit summary stats (grouping by hitID)"
-blastxml_parse.pl \-taxa 2 < file.blast.xml > file.taxa\-hit.txt
-.SS "Make a taxa-hit summary stats (grouping by hitID & queryID)"
-.IX Subsection "Make a taxa-hit summary stats (grouping by hitID & queryID)"
-blastxml_parse.pl \-taxa 3 < file.blast.xml > file.taxa\-hit.txt
+.SS "Usage"
+.IX Subsection "Usage"
+nseq\-paired.pl *fasta
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 Nick Youngblut <nyoungb2@illinois.edu>

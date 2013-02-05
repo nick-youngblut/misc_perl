@@ -162,21 +162,37 @@ blastxml_parse.pl [options] < file.blast.xml > file.blast.txt
 
 =over
 
-=item -taxa_summary 		Print a summary of taxa hit
+=item -taxa_summary 		
 
-=item -evalue 			e-value cutoff (examples: '10' or '1e-5'). [10]
+Print a summary of taxa hit
 
-=item -hsp_length 		Hit length (gaps included)
+=item -evalue 			
 
-=item -query_length 		Query length (gaps included)
+e-value cutoff (examples: '10' or '1e-5'). [10]
 
-=item -percent_identity 	Percent identity (values from 0-100)
+=item -hsp_length 		
 
-=item -bit_score 		Bit score
+Hit length (gaps included)
 
-=item -header 			Print header? [TRUE]
+=item -query_length 		
 
-=item -help			This help message
+Query length (gaps included)
+
+=item -percent_identity 	
+
+Percent identity (values from 0-100)
+
+=item -bit_score 		
+
+Bit score
+
+=item -header 			
+
+Print header? [TRUE]
+
+=item -help			
+
+This help message
 
 =back
 
