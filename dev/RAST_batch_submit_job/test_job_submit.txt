@@ -1,0 +1,3 @@
+fasta	domain	genus	species	strain	genetic_code	gene_caller
+1.F.A.1A.3_a5udCS.fna	Archaea	Methanosarcina	mazei	1.F.A.1A.3	11	rast
+

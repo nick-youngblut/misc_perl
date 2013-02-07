@@ -1,0 +1,469 @@
+prep.pl -c /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6.final.scaf-clean.fna -r1 /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6_1m_F.fq -r2 /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6_1m_R.fq -t 1
+[prep.pl]::Error:: could not mkdir prep, File exists. Quitting...
+ Insert size: 237
+
+SEQuel -A prep -i 237
+ -p 1 -k 50
+
+5:30 PM --- Starting SEQuel, will refine 178 contigs.
+
+
+Contig size202: ERROR::[KmerMapMaker] Neither read in pair aligned to contig. 
+
+sh: 2: -p: Permission denied
+## complete ###prep.pl -c /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6.final.scaf-clean.fna -r1 /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6_1m_F.fq -r2 /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6_1m_R.fq -t 1
+
+Thu Jan 31 17:31:13 2013 --- Starting SEQuel prep... 
+
+
+Generating read alignments...
+
+[bwa_aln] 17bp reads: max_diff = 1
+[bwa_aln] 24bp reads: max_diff = 2
+[bwa_aln] 50bp reads: max_diff = 3
+[bwa_aln] 81bp reads: max_diff = 4
+[bwa_aln] 114bp reads: max_diff = 5
+[bwa_aln] 149bp reads: max_diff = 6
+[bwa_aln] 184bp reads: max_diff = 7
+[bwa_aln] 221bp reads: max_diff = 8
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 138.75 sec
+[bwa_aln_core] write to the disk... 0.06 sec
+[bwa_aln_core] 262144 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 143.44 sec
+[bwa_aln_core] write to the disk... 0.06 sec
+[bwa_aln_core] 524288 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 141.09 sec
+[bwa_aln_core] write to the disk... 0.05 sec
+[bwa_aln_core] 786432 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 114.92 sec
+[bwa_aln_core] write to the disk... 0.05 sec
+[bwa_aln_core] 1000000 sequences have been processed.
+[main] Version: 0.6.2-r126
+[main] CMD: bwa aln -t 1 -O 7 -E 2 -k 3 -n 0.08 -q 15 3.H.A.2.6.final.scaf-clean.fna /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6_1m_F.fq
+[main] Real time: 541.845 sec; CPU: 541.522 sec
+[bwa_aln] 17bp reads: max_diff = 1
+[bwa_aln] 24bp reads: max_diff = 2
+[bwa_aln] 50bp reads: max_diff = 3
+[bwa_aln] 81bp reads: max_diff = 4
+[bwa_aln] 114bp reads: max_diff = 5
+[bwa_aln] 149bp reads: max_diff = 6
+[bwa_aln] 184bp reads: max_diff = 7
+[bwa_aln] 221bp reads: max_diff = 8
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 145.78 sec
+[bwa_aln_core] write to the disk... 0.05 sec
+[bwa_aln_core] 262144 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 151.25 sec
+[bwa_aln_core] write to the disk... 0.04 sec
+[bwa_aln_core] 524288 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 149.99 sec
+[bwa_aln_core] write to the disk... 0.05 sec
+[bwa_aln_core] 786432 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 121.94 sec
+[bwa_aln_core] write to the disk... 0.05 sec
+[bwa_aln_core] 1000000 sequences have been processed.
+[main] Version: 0.6.2-r126
+[main] CMD: bwa aln -t 1 -O 7 -E 2 -k 3 -n 0.08 -q 15 3.H.A.2.6.final.scaf-clean.fna /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6_1m_R.fq
+[main] Real time: 572.649 sec; CPU: 572.284 sec
+
+Generating paired-end alignments & estimating insert-size...
+
+Done!
+
+Extracting contigs >= 0 bp... done.
+
+Processing reads into separate (contig) SAM files...
+
+	1000000 read-pairs processed
+
+Done.
+
+Thu Jan 31 17:51:20 2013 --- Done! see prep/prep.log for details
+
+ Insert size: 237
+
+SEQuel -A prep -i 237
+ -p 1 -k 50
+
+5:51 PM --- Starting SEQuel, will refine 178 contigs.
+
+
+Contig 1: ERROR::[KmerMapMaker] Neither read in pair aligned to contig. 
+
+sh: 2: -p: Permission denied
+### complete ###prep.pl -c /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6.final.scaf-clean.fna -r1 /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6_1m_F.fq -r2 /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6_1m_R.fq -t 1
+
+Thu Jan 31 21:06:15 2013 --- Starting SEQuel prep... 
+
+
+Generating read alignments...
+
+[bwa_aln] 17bp reads: max_diff = 1
+[bwa_aln] 24bp reads: max_diff = 2
+[bwa_aln] 50bp reads: max_diff = 3
+[bwa_aln] 81bp reads: max_diff = 4
+[bwa_aln] 114bp reads: max_diff = 5
+[bwa_aln] 149bp reads: max_diff = 6
+[bwa_aln] 184bp reads: max_diff = 7
+[bwa_aln] 221bp reads: max_diff = 8
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 163.65 sec
+[bwa_aln_core] write to the disk... 0.06 sec
+[bwa_aln_core] 262144 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 169.20 sec
+[bwa_aln_core] write to the disk... 0.06 sec
+[bwa_aln_core] 524288 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 167.72 sec
+[bwa_aln_core] write to the disk... 0.07 sec
+[bwa_aln_core] 786432 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 137.22 sec
+[bwa_aln_core] write to the disk... 0.04 sec
+[bwa_aln_core] 1000000 sequences have been processed.
+[main] Version: 0.6.2-r126
+[main] CMD: bwa aln -t 1 -O 7 -E 2 -k 3 -n 0.08 -q 15 3.H.A.2.6.final.scaf-clean.fna /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6_1m_F.fq
+[main] Real time: 641.843 sec; CPU: 641.268 sec
+[bwa_aln] 17bp reads: max_diff = 1
+[bwa_aln] 24bp reads: max_diff = 2
+[bwa_aln] 50bp reads: max_diff = 3
+[bwa_aln] 81bp reads: max_diff = 4
+[bwa_aln] 114bp reads: max_diff = 5
+[bwa_aln] 149bp reads: max_diff = 6
+[bwa_aln] 184bp reads: max_diff = 7
+[bwa_aln] 221bp reads: max_diff = 8
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 173.29 sec
+[bwa_aln_core] write to the disk... 0.06 sec
+[bwa_aln_core] 262144 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 179.88 sec
+[bwa_aln_core] write to the disk... 0.05 sec
+[bwa_aln_core] 524288 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 178.34 sec
+[bwa_aln_core] write to the disk... 0.06 sec
+[bwa_aln_core] 786432 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 145.13 sec
+[bwa_aln_core] write to the disk... 0.05 sec
+[bwa_aln_core] 1000000 sequences have been processed.
+[main] Version: 0.6.2-r126
+[main] CMD: bwa aln -t 1 -O 7 -E 2 -k 3 -n 0.08 -q 15 3.H.A.2.6.final.scaf-clean.fna /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6_1m_R.fq
+[main] Real time: 680.789 sec; CPU: 680.075 sec
+
+Generating paired-end alignments & estimating insert-size...
+
+Done!
+
+Extracting contigs >= 0 bp... done.
+
+Processing reads into separate (contig) SAM files...
+
+	1000000 read-pairs processed
+
+Done.
+
+Thu Jan 31 21:29:53 2013 --- Done! see prep/prep.log for details
+
+ Insert size: 3
+
+SEQuel -A prep -i 3
+ -p 1 -k 50
+
+9:29 PM --- Starting SEQuel, will refine 178 contigs.
+
+
+Contig 1: ERROR::[KmerMapMaker] Neither read in pair aligned to contig. 
+
+sh: 2: -p: Permission denied
+### complete ###prep.pl -c /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6.final.scaf-clean.fna -r1 /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6_1m_F.fq -r2 /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6_1m_R.fq -t 1
+[prep.pl]::Error:: could not mkdir prep, File exists. Quitting...
+ Insert size: 3
+SEQuel -A prep -i 3 -p 1 -k 50
+
+9:43 PM --- Starting SEQuel, will refine 178 contigs.
+
+
+Contig 1: ERROR::[KmerMapMaker] Neither read in pair aligned to contig. 
+
+### complete ###prep.pl -c /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6.final.scaf-clean.fna -r1 /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6_1m_F.fq -r2 /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6_1m_R.fq -t 1
+
+Thu Jan 31 21:44:00 2013 --- Starting SEQuel prep... 
+
+
+Generating read alignments...
+
+[bwa_aln] 17bp reads: max_diff = 1
+[bwa_aln] 24bp reads: max_diff = 2
+[bwa_aln] 50bp reads: max_diff = 3
+[bwa_aln] 81bp reads: max_diff = 4
+[bwa_aln] 114bp reads: max_diff = 5
+[bwa_aln] 149bp reads: max_diff = 6
+[bwa_aln] 184bp reads: max_diff = 7
+[bwa_aln] 221bp reads: max_diff = 8
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 162.41 sec
+[bwa_aln_core] write to the disk... 0.06 sec
+[bwa_aln_core] 262144 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 167.21 sec
+[bwa_aln_core] write to the disk... 0.06 sec
+[bwa_aln_core] 524288 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 166.06 sec
+[bwa_aln_core] write to the disk... 0.06 sec
+[bwa_aln_core] 786432 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 135.17 sec
+[bwa_aln_core] write to the disk... 0.05 sec
+[bwa_aln_core] 1000000 sequences have been processed.
+[main] Version: 0.6.2-r126
+[main] CMD: bwa aln -t 1 -O 7 -E 2 -k 3 -n 0.08 -q 15 3.H.A.2.6.final.scaf-clean.fna /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6_1m_F.fq
+[main] Real time: 634.966 sec; CPU: 634.336 sec
+[bwa_aln] 17bp reads: max_diff = 1
+[bwa_aln] 24bp reads: max_diff = 2
+[bwa_aln] 50bp reads: max_diff = 3
+[bwa_aln] 81bp reads: max_diff = 4
+[bwa_aln] 114bp reads: max_diff = 5
+[bwa_aln] 149bp reads: max_diff = 6
+[bwa_aln] 184bp reads: max_diff = 7
+[bwa_aln] 221bp reads: max_diff = 8
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 190.53 sec
+[bwa_aln_core] write to the disk... 0.09 sec
+[bwa_aln_core] 262144 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 197.75 sec
+[bwa_aln_core] write to the disk... 0.08 sec
+[bwa_aln_core] 524288 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 195.86 sec
+[bwa_aln_core] write to the disk... 0.09 sec
+[bwa_aln_core] 786432 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 156.44 sec
+[bwa_aln_core] write to the disk... 0.07 sec
+[bwa_aln_core] 1000000 sequences have been processed.
+[main] Version: 0.6.2-r126
+[main] CMD: bwa aln -t 1 -O 7 -E 2 -k 3 -n 0.08 -q 15 3.H.A.2.6.final.scaf-clean.fna /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/test1/3.H.A.2.6_1m_R.fq
+[main] Real time: 745.307 sec; CPU: 744.539 sec
+
+Generating paired-end alignments & estimating insert-size...
+
+Done!
+
+Extracting contigs >= 0 bp... done.
+
+Processing reads into separate (contig) SAM files...
+
+	1000000 read-pairs processed
+
+Done.
+
+Thu Jan 31 22:08:36 2013 --- Done! see prep/prep.log for details
+
+ Insert size: 3
+SEQuel -A prep -i 3 -p 1 -k 50
+
+10:08 PM --- Starting SEQuel, will refine 178 contigs.
+
+
+Contig 1: ERROR::[KmerMapMaker] Neither read in pair aligned to contig. 
+
+### complete ###prep.pl -c /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/130131_SEQuel/1.F.A.1A.3.final.scaf-clean.fna -r1 /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/130131_SEQuel/1.F.A.1A.3_1m_F.fq -r2 /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/130131_SEQuel/1.F.A.1A.3_1m_R.fq -t 1
+
+Thu Jan 31 22:17:35 2013 --- Starting SEQuel prep... 
+
+
+Generating read alignments...
+
+[bwa_aln] 17bp reads: max_diff = 1
+[bwa_aln] 24bp reads: max_diff = 2
+[bwa_aln] 50bp reads: max_diff = 3
+[bwa_aln] 81bp reads: max_diff = 4
+[bwa_aln] 114bp reads: max_diff = 5
+[bwa_aln] 149bp reads: max_diff = 6
+[bwa_aln] 184bp reads: max_diff = 7
+[bwa_aln] 221bp reads: max_diff = 8
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 122.15 sec
+[bwa_aln_core] write to the disk... 0.06 sec
+[bwa_aln_core] 262144 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 125.24 sec
+[bwa_aln_core] write to the disk... 0.06 sec
+[bwa_aln_core] 524288 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 123.70 sec
+[bwa_aln_core] write to the disk... 0.06 sec
+[bwa_aln_core] 786432 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 101.48 sec
+[bwa_aln_core] write to the disk... 0.04 sec
+[bwa_aln_core] 1000000 sequences have been processed.
+[main] Version: 0.6.2-r126
+[main] CMD: bwa aln -t 1 -O 7 -E 2 -k 3 -n 0.08 -q 15 1.F.A.1A.3.final.scaf-clean.fna /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/130131_SEQuel/1.F.A.1A.3_1m_F.fq
+[main] Real time: 476.583 sec; CPU: 476.038 sec
+[bwa_aln] 17bp reads: max_diff = 1
+[bwa_aln] 24bp reads: max_diff = 2
+[bwa_aln] 50bp reads: max_diff = 3
+[bwa_aln] 81bp reads: max_diff = 4
+[bwa_aln] 114bp reads: max_diff = 5
+[bwa_aln] 149bp reads: max_diff = 6
+[bwa_aln] 184bp reads: max_diff = 7
+[bwa_aln] 221bp reads: max_diff = 8
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 140.27 sec
+[bwa_aln_core] write to the disk... 0.05 sec
+[bwa_aln_core] 262144 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 137.76 sec
+[bwa_aln_core] write to the disk... 0.05 sec
+[bwa_aln_core] 524288 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 137.09 sec
+[bwa_aln_core] write to the disk... 0.05 sec
+[bwa_aln_core] 786432 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 112.12 sec
+[bwa_aln_core] write to the disk... 0.04 sec
+[bwa_aln_core] 1000000 sequences have been processed.
+[main] Version: 0.6.2-r126
+[main] CMD: bwa aln -t 1 -O 7 -E 2 -k 3 -n 0.08 -q 15 1.F.A.1A.3.final.scaf-clean.fna /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/130131_SEQuel/1.F.A.1A.3_1m_R.fq
+[main] Real time: 531.074 sec; CPU: 530.629 sec
+
+Generating paired-end alignments & estimating insert-size...
+
+Done!
+
+Extracting contigs >= 0 bp... done.
+
+Processing reads into separate (contig) SAM files...
+
+	1000000 read-pairs processed
+
+Done.
+
+Thu Jan 31 22:36:01 2013 --- Done! see prep/prep.log for details
+
+ Insert size: 2
+SEQuel -A prep -i 2 -p 1 -k 50
+
+10:36 PM --- Starting SEQuel, will refine 124 contigs.
+
+
+Contig 1: ERROR::[KmerMapMaker] Neither read in pair aligned to contig. 
+
+### complete ###Can't modify constant item in scalar assignment at ../../bin/SEQuel_batch.pl line 27, near ""testing 1 2 3";"
+Bareword "test" not allowed while "strict subs" in use at ../../bin/SEQuel_batch.pl line 27.
+Bareword "test" not allowed while "strict subs" in use at ../../bin/SEQuel_batch.pl line 28.
+Execution of ../../bin/SEQuel_batch.pl aborted due to compilation errors.
+prep.pl -c /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/130131_SEQuel/1.F.A.1A.3.final.scaf-clean_e.fna -r1 /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/130131_SEQuel/1.F.A.1A.3_1m_F.fq -r2 /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/130131_SEQuel/1.F.A.1A.3_1m_R.fq -t 1
+
+Thu Jan 31 22:58:40 2013 --- Starting SEQuel prep... 
+
+
+Generating read alignments...
+
+[bwa_aln] 17bp reads: max_diff = 1
+[bwa_aln] 24bp reads: max_diff = 2
+[bwa_aln] 50bp reads: max_diff = 3
+[bwa_aln] 81bp reads: max_diff = 4
+[bwa_aln] 114bp reads: max_diff = 5
+[bwa_aln] 149bp reads: max_diff = 6
+[bwa_aln] 184bp reads: max_diff = 7
+[bwa_aln] 221bp reads: max_diff = 8
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 127.43 sec
+[bwa_aln_core] write to the disk... 0.10 sec
+[bwa_aln_core] 262144 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 129.76 sec
+[bwa_aln_core] write to the disk... 0.09 sec
+[bwa_aln_core] 524288 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 128.76 sec
+[bwa_aln_core] write to the disk... 0.10 sec
+[bwa_aln_core] 786432 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 106.07 sec
+[bwa_aln_core] write to the disk... 0.08 sec
+[bwa_aln_core] 1000000 sequences have been processed.
+[main] Version: 0.6.2-r126
+[main] CMD: bwa aln -t 1 -O 7 -E 2 -k 3 -n 0.08 -q 15 1.F.A.1A.3.final.scaf-clean_e.fna /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/130131_SEQuel/1.F.A.1A.3_1m_F.fq
+[main] Real time: 496.560 sec; CPU: 496.059 sec
+[bwa_aln] 17bp reads: max_diff = 1
+[bwa_aln] 24bp reads: max_diff = 2
+[bwa_aln] 50bp reads: max_diff = 3
+[bwa_aln] 81bp reads: max_diff = 4
+[bwa_aln] 114bp reads: max_diff = 5
+[bwa_aln] 149bp reads: max_diff = 6
+[bwa_aln] 184bp reads: max_diff = 7
+[bwa_aln] 221bp reads: max_diff = 8
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 153.48 sec
+[bwa_aln_core] write to the disk... 0.10 sec
+[bwa_aln_core] 262144 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 157.18 sec
+[bwa_aln_core] write to the disk... 0.11 sec
+[bwa_aln_core] 524288 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 156.53 sec
+[bwa_aln_core] write to the disk... 0.10 sec
+[bwa_aln_core] 786432 sequences have been processed.
+[bwa_read_seq] 0.0% bases are trimmed.
+[bwa_aln_core] calculate SA coordinate... 127.77 sec
+[bwa_aln_core] write to the disk... 0.08 sec
+[bwa_aln_core] 1000000 sequences have been processed.
+[main] Version: 0.6.2-r126
+[main] CMD: bwa aln -t 1 -O 7 -E 2 -k 3 -n 0.08 -q 15 1.F.A.1A.3.final.scaf-clean_e.fna /home/nyoungb2/perl/projects/NY_misc_perl/dev/SEQuel_batch/130131_SEQuel/1.F.A.1A.3_1m_R.fq
+[main] Real time: 599.757 sec; CPU: 599.189 sec
+
+Generating paired-end alignments & estimating insert-size...
+
+Done!
+
+Extracting contigs >= 0 bp... done.
+
+Processing reads into separate (contig) SAM files...
+
+	1000000 read-pairs processed
+
+Done.
+
+Thu Jan 31 23:18:38 2013 --- Done! see prep/prep.log for details
+
+ Insert size: 229
+SEQuel -A prep -i 229 -p 1 -k 50
+
+11:18 PM --- Starting SEQuel, will refine 124 contigs.
+
+11:18 PM --- Refined 1 contigs, active threads: 1, last contig: 536 bp
+11:18 PM --- Refined 10 contigs, active threads: 1, last contig: 1,661 bp
+11:18 PM --- Refined 20 contigs, active threads: 1, last contig: 3,797 bp
+11:19 PM --- Refined 30 contigs, active threads: 1, last contig: 5,930 bp
+11:19 PM --- Refined 40 contigs, active threads: 1, last contig: 9,568 bp
+11:19 PM --- Refined 50 contigs, active threads: 1, last contig: 13,761 bp
+11:20 PM --- Refined 60 contigs, active threads: 1, last contig: 17,624 bp
+11:20 PM --- Refined 70 contigs, active threads: 1, last contig: 20,616 bp
+11:21 PM --- Refined 80 contigs, active threads: 1, last contig: 24,905 bp
+11:22 PM --- Refined 90 contigs, active threads: 1, last contig: 34,721 bp
+11:23 PM --- Refined 100 contigs, active threads: 1, last contig: 42,658 bp
+11:26 PM --- Refined 110 contigs, active threads: 1, last contig: 77,153 bp
+11:44 PM --- Refined 120 contigs, active threads: 1, last contig: 150,190 bp
+
+12:16 AM --- Done! (refined contigs in SEQuel.output.13.01.31/contigs_refined.fa)
+
+All done (total runtime 57.66 minutes).
+
+### complete ###

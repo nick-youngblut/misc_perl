@@ -1,0 +1,100 @@
+query_desc	hit_accession	hit_desc	perc_id	evalue	bit_score	hsp_length	q_start	q_end	hit_start	hit_end
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.4228262893316	0	9744.04	5371	158	5525	3193233	3198603
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.3118839501581	0	9723.73	5377	153	5529	2776106	2781480
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.2342597844583	0	6360.98	3526	2174	5698	2881841	2885366
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	98.7941671340437	0	6344.36	3566	2082	5644	3062292	3065856
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.0346394094265	0	6309.28	3522	2182	5698	3234253	3237772
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.199313697455	0	6301.89	3497	2212	5707	3128076	3131572
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.1613649508386	0	6226.18	3458	2174	5631	583456	586913
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.0146312332039	0	5997.19	3349	2182	5527	35612	38958
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.3063932448733	0	5997.19	3316	2212	5527	3068084	3071399
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.2762364294331	0	5991.65	3316	2212	5527	3133503	3136818
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	98.9208633093525	0	3476.51	1946	1	1945	3066174	3068118
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	98.8132094943241	0	3450.66	1938	1	1937	3131601	3133537
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.5523223279239	0	3254.92	1787	159	1945	33446	35231
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.5523223279239	0	3254.92	1787	159	1945	3238153	3239938
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.4400895856663	0	3243.84	1786	160	1945	2885502	2887287
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.4394618834081	0	3240.14	1784	161	1944	581440	583223
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.2692523889826	0	3214.29	1779	159	1937	3071428	3073206
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.2692523889826	0	3214.29	1779	159	1937	3136847	3138625
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	92.0962199312715	5.83946e-108	403.69	291	5389	5673	2775609	2775898
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	98.7951807228916	3.02099e-31	148.852	83	2079	2161	3065866	3065948
+scaffold124.1|size5739	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	84.6153846153846	1.44587e-09	76.8329	78	2080	2156	583273	583349
+scaffold136.1|size3910	AY876057	Vibrio cholerae strain SIO plasmid pSIO1, complete sequence	90.3490759753593	1.67163e-176	630.828	487	3400	3884	198	677
+scaffold136.1|size3910	AY876057	Vibrio cholerae strain SIO plasmid pSIO1, complete sequence	84.6153846153846	2.0523e-31	148.852	156	2264	2417	232	381
+scaffold152.1|size3490	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	87.7518767285658	0	2937.29	2531	83	2604	13207	15725
+scaffold152.1|size3490	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	87.7518767285658	0	2937.29	2531	83	2604	24266	26784
+scaffold152.1|size3490	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	87.7518767285658	0	2937.29	2531	83	2604	50774	53292
+scaffold152.1|size3490	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	87.7518767285658	0	2937.29	2531	83	2604	56323	58841
+scaffold152.1|size3490	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	87.7518767285658	0	2937.29	2531	83	2604	1839144	1841662
+scaffold152.1|size3490	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	87.7518767285658	0	2937.29	2531	83	2604	4431294	4433812
+scaffold152.1|size3490	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	87.7518767285658	0	2937.29	2531	83	2604	4438911	4441429
+scaffold152.1|size3490	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	87.7518767285658	0	2937.29	2531	83	2604	4447798	4450316
+scaffold152.1|size3490	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	87.7518767285658	0	2937.29	2531	83	2604	4454104	4456622
+scaffold152.1|size3490	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	87.7518767285658	0	2937.29	2531	83	2604	4629054	4631572
+scaffold152.1|size3490	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	90.4397705544933	0	688.074	523	2620	3142	15620	16141
+scaffold152.1|size3490	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	90.4397705544933	0	688.074	523	2620	3142	26679	27200
+scaffold152.1|size3490	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	90.4397705544933	0	688.074	523	2620	3142	53187	53708
+scaffold152.1|size3490	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	90.4397705544933	0	688.074	523	2620	3142	58736	59257
+scaffold152.1|size3490	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	90.4397705544933	0	688.074	523	2620	3142	1841557	1842078
+scaffold152.1|size3490	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	90.4397705544933	0	688.074	523	2620	3142	4430878	4431399
+scaffold152.1|size3490	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	90.4397705544933	0	688.074	523	2620	3142	4438495	4439016
+scaffold152.1|size3490	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	90.4397705544933	0	688.074	523	2620	3142	4447382	4447903
+scaffold152.1|size3490	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	90.4397705544933	0	688.074	523	2620	3142	4453688	4454209
+scaffold152.1|size3490	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	90.4397705544933	0	688.074	523	2620	3142	4628638	4629159
+scaffold158.1|size2310	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	74.1863075196408	2.38104e-93	353.83	891	102	982	1091565	1092445
+scaffold158.1|size2310	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	74.1863075196408	2.38104e-93	353.83	891	102	982	1530345	1531225
+scaffold158.1|size2310	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	74.1863075196408	2.38104e-93	353.83	891	102	982	1881787	1882667
+scaffold158.1|size2310	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	74.1863075196408	2.38104e-93	353.83	891	102	982	2192925	2193805
+scaffold158.1|size2310	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	74.1863075196408	2.38104e-93	353.83	891	102	982	2859229	2860109
+scaffold158.1|size2310	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	74.1863075196408	2.38104e-93	353.83	891	102	982	3652303	3653183
+scaffold158.1|size2310	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	74.1863075196408	2.38104e-93	353.83	891	102	982	3969143	3970023
+scaffold158.1|size2310	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	74.1863075196408	2.38104e-93	353.83	891	102	982	4066978	4067858
+scaffold158.1|size2310	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	74.1863075196408	2.38104e-93	353.83	891	102	982	4173527	4174407
+scaffold158.1|size2310	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	74.1863075196408	2.38104e-93	353.83	891	102	982	4811049	4811929
+scaffold158.1|size2310	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	95.6521739130435	2.07589e-09	74.9863	46	2250	2295	1089980	1090025
+scaffold158.1|size2310	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	95.5555555555556	7.46624e-09	73.1396	45	2250	2294	2857645	2857689
+scaffold158.1|size2310	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	93.8775510204082	7.46624e-09	73.1396	49	2250	2297	3967555	3967603
+scaffold158.1|size2310	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	95.4545454545455	2.68534e-08	71.293	44	2250	2293	1532765	1532808
+scaffold158.1|size2310	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	95.4545454545455	2.68534e-08	71.293	44	2250	2293	1884207	1884250
+scaffold158.1|size2310	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	95.4545454545455	2.68534e-08	71.293	44	2250	2293	2191342	2191385
+scaffold158.1|size2310	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	95.4545454545455	2.68534e-08	71.293	44	2250	2293	3650720	3650763
+scaffold158.1|size2310	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	95.4545454545455	2.68534e-08	71.293	44	2250	2293	4069398	4069441
+scaffold158.1|size2310	CP000724	Alkaliphilus metalliredigens QYMF, complete genome	95.4545454545455	2.68534e-08	71.293	44	2250	2293	4813469	4813512
+scaffold164.1|size1858	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	96.0731576116192	0	3027.78	1859	1	1858	3140075	3141932
+scaffold167.1|size1691	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	98.876404494382	0	3018.55	1691	1	1691	3143151	3144841
+scaffold168.1|size2003	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	97.2541188217673	0	3395.26	2003	1	2003	3147375	3149377
+scaffold171.1|size2266	GU455175	Uncultured bacterium clone mesophilic_alkaline-60 16S ribosomal RNA gene, partial sequence	93.9662821650399	0	1692.65	1127	379	1497	1	1122
+scaffold171.1|size2266	GU455175	Uncultured bacterium clone mesophilic_alkaline-60 16S ribosomal RNA gene, partial sequence	89.6774193548387	4.54553e-165	592.048	465	1551	2015	1133	1596
+scaffold172.1|size3154	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	98.0722891566265	0	2876.35	1660	1510	3154	3155256	3156914
+scaffold172.1|size3154	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.1994663108739	0	2702.77	1499	1	1499	3156955	3158453
+scaffold173.1|size1437	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.1637630662021	0	2584.58	1435	3	1437	3190872	3192306
+scaffold180.1|size1097	CP000853	Alkaliphilus oremlandii OhILAs, complete genome	76.6375545851528	3.78477e-133	484.943	916	181	1084	2846757	2847660
+scaffold186.1|size1736	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.5889003083248	0	1775.75	973	1	973	3183106	3184078
+scaffold186.1|size1736	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.737532808399	0	1397.19	762	975	1736	3184153	3184914
+scaffold188.1|size1329	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	98.4951091045899	0	2337.13	1329	1	1329	3153212	3154533
+scaffold190.1|size3101	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	98.3642311886587	0	1611.4	917	1507	2423	3175830	3176746
+scaffold190.1|size3101	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	95.5732122587968	0	1399.03	881	1	881	3174111	3174972
+scaffold190.1|size3101	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	97.7064220183486	0	1125.73	654	2448	3101	3176981	3177634
+scaffold190.1|size3101	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.4584837545126	0	1007.54	554	949	1502	3174978	3175531
+scaffold193.1|size893	AM295250	Staphylococcus carnosus subsp. carnosus TM300 complete genome	88.8888888888889	2.80247e-14	89.7595	72	765	836	1440710	1440781
+scaffold195.1|size883	BA000032	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 2, complete sequence	99.601593625498	0	917.059	502	1	502	1229523	1230024
+scaffold195.1|size883	BA000032	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 2, complete sequence	98.2097186700767	0	684.381	391	493	883	1228996	1229386
+scaffold196.1|size868	CP001666	Clostridium ljungdahlii DSM 13528, complete genome	73.9290085679314	1.15472e-77	300.278	817	21	823	4029825	4030624
+scaffold207.1|size805	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	98.2256020278834	0	1380.57	789	1	789	2826510	2827298
+scaffold209.1|size792	AE008691	Thermoanaerobacter tengcongensis MB4, complete genome	81.6091954022989	8.95888e-09	71.293	87	13	98	2478087	2478172
+scaffold212.1|size2167	AF459463	Uncultured environmental landfill bacterium clone GW70-20-9 formyltetrahydrofolate synthetase gene, partial cds	75.9398496240601	2.24729e-88	337.211	665	1506	2167	56	717
+scaffold214.1|size772	FN668941	Clostridium difficile BI1 chromosome, complete sequence	79.5348837209302	1.08915e-32	150.699	215	540	752	1848237	1848449
+scaffold217.1|size764	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	93.1818181818182	8.9635e-163	582.815	396	237	632	1661601	1661996
+scaffold219.1|size762	AB360449	Vibrio parahaemolyticus LacI, BG, BG, PTS IIA, PTS IIC, PTS IIB, COD genes for transcriptional regulator LacI family, hypothetical protein, 6-phospho-beta-glucosidase, PTS system, cellobiose-specific IIA component, PTS system, cellobiose-specific IIC component, PTS system, cellobiose-specific IIB component, chitin oligosaccharide deacetylase, complete cds	99.2125984251969	0	1375.03	762	1	762	4637	5398
+scaffold220.1|size753	FP565809	Clostridium sticklandii str. DSM 519 chromosome, complete genome	87.9432624113475	0	660.374	564	61	621	2330981	2331541
+scaffold220.1|size753	FP565809	Clostridium sticklandii str. DSM 519 chromosome, complete genome	88.3424408014572	0	656.681	549	61	607	2315314	2315860
+scaffold221.1|size749	FR714927	Staphylococcus aureus subsp. aureus ECT-R 2 complete genome	85.7142857142857	8.39175e-14	87.9128	84	167	249	2725952	2726034
+scaffold222.1|size747	BA000031	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 1, complete sequence	99.4645247657296	0	1358.41	747	1	747	3180904	3181650
+scaffold223.1|size745	BX548174	Prochlorococcus marinus MED4 complete genome	83.3333333333333	2.33666e-09	73.1396	78	655	732	220626	220703
+scaffold224.1|size741	BA000032	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 2, complete sequence	98.7854251012146	0	1319.63	741	1	741	1583416	1584156
+scaffold227.1|size722	AF416590	Vibrio phage CTX core region Cep (cep), OrfU (orfU), Ace (ace), and Zot (zot) genes, complete cds and Vibrio cholerae serogroup 0139, partial sequence	80.2816901408451	4.59265e-51	211.638	284	25	307	3812	4092
+scaffold227.1|size722	AF416590	Vibrio phage CTX core region Cep (cep), OrfU (orfU), Ace (ace), and Zot (zot) genes, complete cds and Vibrio cholerae serogroup 0139, partial sequence	84.9056603773585	8.01837e-19	104.533	106	260	364	3634	3736
+scaffold228.1|size718	BA000032	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 2, complete sequence	97.6190476190476	0	1153.43	672	4	675	140403	141074
+scaffold229.1|size717	BA000032	Vibrio parahaemolyticus RIMD 2210633 DNA, chromosome 2, complete sequence	98.4615384615385	0	1260.54	715	3	717	1772544	1773258
+scaffold231.1|size711	CP002205	Sulfurimonas autotrophica DSM 16294, complete genome	95.4545454545455	8.00279e-09	71.293	44	397	440	499905	499948

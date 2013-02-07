@@ -73,6 +73,7 @@ do{ my $x = [
                               '/opt/iCORN-v0.97/',
                               '/opt/RAST_api/lib/',
                               '/opt/RepeatMasker/',
+                              '/opt/mugsy/perllibs/',
                               '/usr/local/lib/perl/5.14.2/',
                               '/opt/RAST_api/lib'
                             ],
@@ -111,10 +112,15 @@ do{ my $x = [
          'extra_compiler_flags' => [],
          'script_files' => [
                              './bin/get_RAST_jobs.pl',
+                             './bin/nseq-paired.pl',
                              './bin/proc_track.pl',
                              './bin/gap_rm.pl',
+                             './bin/SEQuel_batch.pl',
                              './bin/matrix_make_symmetric.pl',
-                             './bin/scaffold_cat.pl'
+                             './bin/scaffold_contamination_rm.pl',
+                             './bin/RAST_batch_submit_job.pl',
+                             './bin/scaffold_cat.pl',
+                             './bin/blastxml_parse.pl'
                            ],
          'build_script' => 'Build',
          'original_prefix' => {},
