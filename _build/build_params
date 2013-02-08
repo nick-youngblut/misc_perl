@@ -117,6 +117,7 @@ do{ my $x = [
                              './bin/gap_rm.pl',
                              './bin/SEQuel_batch.pl',
                              './bin/matrix_make_symmetric.pl',
+                             './bin/contig_lengths.pl',
                              './bin/scaffold_contamination_rm.pl',
                              './bin/RAST_batch_submit_job.pl',
                              './bin/scaffold_cat.pl',
