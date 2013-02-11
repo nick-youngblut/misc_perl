@@ -19,7 +19,7 @@ GetOptions(
 	   "names=s{,}" => \@names,		# file names
 	   "verbose" => \$verbose,	   
 	   "cutoff=i" => \$cutoff,		# length cutoff for counting
-	   "help|?" => \&usage # Help
+	   "help|?" => \&pod2usage 		# Help
 	   );
 
 ### I/O error & defaults
@@ -169,9 +169,13 @@ just 'ATGC'	(doesn't cound N-gaps)
 
 =back
 
-=item -v	Verbose output
+=item -v	
 
-=item -h	This help message
+Verbose output
+
+=item -h	
+
+This help message
 
 =back
 
