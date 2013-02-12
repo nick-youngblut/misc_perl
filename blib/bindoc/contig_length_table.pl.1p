@@ -124,7 +124,7 @@
 .\" ========================================================================
 .\"
 .IX Title "CONTIG_LENGTH_TABLE 1"
-.TH CONTIG_LENGTH_TABLE 1 "2013-02-08" "perl v5.14.2" "User Contributed Perl Documentation"
+.TH CONTIG_LENGTH_TABLE 1 "2013-02-11" "perl v5.14.2" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -153,12 +153,12 @@ just '\s-1ATGC\s0'	(doesn't cound N\-gaps)
 .RE
 .RS 4
 .RE
-.IP "\-v	Verbose output" 4
-.IX Item "-v	Verbose output"
-.PD 0
-.IP "\-h	This help message" 4
-.IX Item "-h	This help message"
-.PD
+.IP "\-v" 4
+.IX Item "-v"
+Verbose output
+.IP "\-h" 4
+.IX Item "-h"
+This help message
 .SS "For more information:"
 .IX Subsection "For more information:"
 perldoc contig_length_table.pl
