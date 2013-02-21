@@ -1,9 +1,0 @@
-scaffold117_1_size1216-refined	FIG	CDS	800	1150	.	-	2	ID=fig|6666666.30643.peg.138;Name=CRISPR-associated protein Cas1
-scaffold11_1_size157491-refined	FIG	CDS	80173	80286	.	+	1	ID=fig|6666666.30643.peg.220;Name=CRISPR-associated protein Cas1
-scaffold2_1_size275345-refined	FIG	CDS	185350	186567	.	-	1	ID=fig|6666666.30643.peg.1668;Name=CRISPR-associated protein Cas1
-scaffold3_1_size255613-refined	FIG	CDS	173542	174540	.	+	1	ID=fig|6666666.30643.peg.2233;Name=CRISPR-associated protein Cas1
-scaffold43_1_size26087-refined	FIG	CDS	10241	10915	.	-	2	ID=fig|6666666.30643.peg.2412;Name=CRISPR-associated RecB family exonuclease Cas4b
-scaffold43_1_size26087-refined	FIG	CDS	10933	11223	.	-	1	ID=fig|6666666.30643.peg.2413;Name=CRISPR-associated protein Cas2
-scaffold43_1_size26087-refined	FIG	CDS	11241	12212	.	-	0	ID=fig|6666666.30643.peg.2414;Name=CRISPR-associated protein Cas1
-scaffold43_1_size26087-refined	FIG	CDS	12861	15296	.	-	0	ID=fig|6666666.30643.peg.2416;Name=CRISPR-associated helicase Cas3
-scaffold85_1_size9561-refined	FIG	CDS	3928	4446	.	+	1	ID=fig|6666666.30643.peg.3662;Name=CRISPR-associated protein Cas1
