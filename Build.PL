@@ -6,7 +6,7 @@ use Module::Build;
 # loading bin scripts #
 opendir IN, "./bin/" or die $!;
 my @binfiles = readdir IN;
-my @binscripts = grep(/.pl$/, @binfiles);
+my @binscripts = grep(/.pl$|.py$/, @binfiles);
 @binscripts = map{$_ = "./bin/" . $_} @binscripts;
 
 my $builder = Module::Build->new(
