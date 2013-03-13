@@ -111,6 +111,7 @@ do{ my $x = [
          'quiet' => undef,
          'extra_compiler_flags' => [],
          'script_files' => [
+                             './bin/pipe_stats.r',
                              './bin/nseq-paired.pl',
                              './bin/proc_track.pl',
                              './bin/gap_rm.pl',
