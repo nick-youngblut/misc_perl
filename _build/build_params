@@ -111,9 +111,7 @@ do{ my $x = [
          'quiet' => undef,
          'extra_compiler_flags' => [],
          'script_files' => [
-                             './bin/get_RAST_jobs.pl',
                              './bin/nseq-paired.pl',
-                             './bin/genbank_cds_parse_OLD.pl',
                              './bin/proc_track.pl',
                              './bin/gap_rm.pl',
                              './bin/SEQuel_batch.pl',
@@ -121,9 +119,8 @@ do{ my $x = [
                              './bin/contig_length_table.pl',
                              './bin/contig_lengths.pl',
                              './bin/scaffold_contamination_rm.pl',
-                             './bin/genbank_cds_parse.pl',
-                             './bin/RAST_batch_submit_job.pl',
                              './bin/scaffold_cat.pl',
+                             './bin/alignIO.py',
                              './bin/blastxml_parse.pl'
                            ],
          'build_script' => 'Build',
