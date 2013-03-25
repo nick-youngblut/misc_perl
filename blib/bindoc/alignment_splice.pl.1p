@@ -123,44 +123,53 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "SLIDING_PERCENT_ID 1"
-.TH SLIDING_PERCENT_ID 1 "2013-03-24" "perl v5.14.2" "User Contributed Perl Documentation"
+.IX Title "ALIGNMENT_SPLICE 1"
+.TH ALIGNMENT_SPLICE 1 "2013-03-24" "perl v5.14.2" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
 .SH "NAME"
-sliding_percent_id.pl \-\- Sliding window of percent sequence identity
+alignment_splice.pl \-\- splice regions of an alignment (fasta format)
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-sliding_percent_id.pl [options] < alignment > percentID.txt
+alignment_splice.pl [\-r | \-t] [\-c] < align.fna > align_splice.fna
 .SS "options"
 .IX Subsection "options"
-.IP "\-i 	Alignment file format. [bioperl will guess]" 4
-.IX Item "-i 	Alignment file format. [bioperl will guess]"
+.IP "\-range" 4
+.IX Item "-range"
+List start-end values for regions to keep. If the end value is not given,
+the max alignment length is used. Example: \*(L"1\-10,15\-20,25\-\*(R"
+.IP "\-table" 4
+.IX Item "-table"
+2 or 3 column table (*txt) with start, end, and percent sequence \s-1ID\s0 (optional).
+These regions will be kept. This table can be produced by sliding_percent_id.pl
+.IP "\-cutoff" 4
+.IX Item "-cutoff"
+Cutoff value for percent \s-1ID\s0 column (regions with values < cutoff will not
+be kept.
+.IP "\-v	Verbose output" 4
+.IX Item "-v	Verbose output"
 .PD 0
-.IP "\-w 	Window length (bp). [100]" 4
-.IX Item "-w 	Window length (bp). [100]"
-.IP "\-j 	Jump length (bp). [100]" 4
-.IX Item "-j 	Jump length (bp). [100]"
-.IP "\-t 	Get percent \s-1ID\s0 of total alignment length? [\s-1FALSE\s0]" 4
-.IX Item "-t 	Get percent ID of total alignment length? [FALSE]"
 .IP "\-h	This help message" 4
 .IX Item "-h	This help message"
 .PD
 .SS "For more information:"
 .IX Subsection "For more information:"
-perldoc sliding_percent_id.pl
+perldoc alignment_splice.pl
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-Get percent sequence identity for a sequence alignment over a sliding scale.
-.PP
-Just using Bio::AlignIO subroutines.
+Remove regions of a fasta alignment. The regions kept can be given via a list
+(\-r) or with a table (\-t). Percent sequence \s-1ID\s0 and a cutoff (\-c) can be used
+to determine which regions are kept.
 .SH "EXAMPLES"
 .IX Header "EXAMPLES"
-.SS "Usage"
-.IX Subsection "Usage"
-sliding_percent_id.pl \-i fasta < file.fna > file_percent\-ID.txt
+.SS "Usage: provided range"
+.IX Subsection "Usage: provided range"
+alignment_splice.pl \-r 1\-10,15\- < file.fna > splice.fna
+.SS "Usage: table from sliding_percent_id.pl (97% \s-1ID\s0 cutoff)"
+.IX Subsection "Usage: table from sliding_percent_id.pl (97% ID cutoff)"
+alignment_splice.pl \-t file_pID.txt \-c 97 < file.fna > splice.fna
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 Nick Youngblut <nyoungb2@illinois.edu>
