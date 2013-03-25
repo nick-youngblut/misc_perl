@@ -40,14 +40,14 @@ sub splice_fasta{
 # splicing fasta based on splice table #
 	my ($fasta_r, $splice_tbl_r) = @_;
 	
-	foreach my $taxon (keys %$fasta_r){
+	foreach my $taxon (sort keys %$fasta_r){
 		my $seq;
-		foreach my $start (keys %$splice_tbl_r){
+		foreach my $start (sort {$a<=>$b} keys %$splice_tbl_r){
 			$splice_tbl_r->{$start} = length($fasta_r->{$taxon}) 
 				if $splice_tbl_r->{$start} eq "end";
  
 			$seq .= substr($fasta_r->{$taxon}, 
-				$start, $splice_tbl_r->{$start} - $start - 1);
+				$start -1, $splice_tbl_r->{$start} - $start + 1);
 			}
 		print join("\n", "$taxon", $seq), "\n";
 		}
@@ -154,6 +154,10 @@ perldoc alignment_splice.pl
 Remove regions of a fasta alignment. The regions kept can be given via a list
 (-r) or with a table (-t). Percent sequence ID and a cutoff (-c) can be used
 to determine which regions are kept.
+
+=head2 WARNING:
+
+Overlapping ranges will produce repeating regions in the alignment!
 
 =head1 EXAMPLES
 

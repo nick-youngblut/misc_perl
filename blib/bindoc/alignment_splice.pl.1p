@@ -162,6 +162,9 @@ perldoc alignment_splice.pl
 Remove regions of a fasta alignment. The regions kept can be given via a list
 (\-r) or with a table (\-t). Percent sequence \s-1ID\s0 and a cutoff (\-c) can be used
 to determine which regions are kept.
+.SS "\s-1WARNING:\s0"
+.IX Subsection "WARNING:"
+Overlapping ranges will produce repeating regions in the alignment!
 .SH "EXAMPLES"
 .IX Header "EXAMPLES"
 .SS "Usage: provided range"
