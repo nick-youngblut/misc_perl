@@ -111,6 +111,7 @@ do{ my $x = [
          'quiet' => undef,
          'extra_compiler_flags' => [],
          'script_files' => [
+                             './bin/fasta2AlleleTable.pl',
                              './bin/pipe_stats.r',
                              './bin/nseq-paired.pl',
                              './bin/proc_track.pl',

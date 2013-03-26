@@ -72,12 +72,15 @@ sub get_multi_alleles{
 	print STDERR "...Purging all homo-alleles\n";
 	my ($alleles_r) = @_;
 	
+	my %summary;
 	foreach my $pos (keys %$alleles_r){
 		if(scalar values %{$alleles_r->{$pos}} == 1){
+			$summary{1}++;
 			delete $alleles_r->{$pos};
 			}
 		else{
 			my $cnt = 0;
+			my $gap = 0;
 			foreach my $nuc (keys %{$alleles_r->{$pos}}){
 				if($nuc =~ /[ATCG]/i){			# not counting any SNPs caused by gaps or other characters
 					$cnt++;
@@ -85,12 +88,21 @@ sub get_multi_alleles{
 					}
 				else{
 					delete $alleles_r->{$pos};
+					$gap++;
 					last;
 					}
 				}
+			$gap ? $summary{"gap or odd nucleotide"}++  : 
+				$summary{scalar keys %{$alleles_r->{$pos}}}++;
 			}
 		}
-		#print Dumper %$alleles_r; exit;
+
+	# printing Summary #
+	print STDERR "### allele summary ###\n";
+	foreach my $key (sort keys %summary){
+		print STDERR join("\t", $key, $summary{$key}), "\n";
+		}
+	print STDERR "\n";
 	}
 
 sub find_alleles{
@@ -121,7 +133,6 @@ sub find_alleles{
 	
 	return \%alleles;
 	} #end load_fasta
-
 
 
 __END__
