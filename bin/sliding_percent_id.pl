@@ -153,6 +153,8 @@ sub window_percent_id{
 	my ($aln, $window, $jump, $comp, $group) = @_;
 	
 	for (my $i=1; $i<=($aln->length -1); $i+=$jump){
+		print STDERR "$i," if $verbose;
+		
 		my $sub_aln = $aln->slice($i, $i + $window - 1);		# subalignment
 		my $pID = $sub_aln->percentage_identity;				# percent ID
 		$pID = "NA" if ! $pID;
@@ -186,6 +188,8 @@ sliding_percent_id.pl [options] < alignment > percentID.txt
 =item -p	Population table (2 column: taxon	population).
 
 =item -t 	Get percent ID of total alignment length? [FALSE]
+
+=item -v 	Verbose output
 
 =item -h	This help message
 

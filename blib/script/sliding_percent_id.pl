@@ -12,7 +12,7 @@ use Bio::AlignIO;
 ### args/flags
 pod2usage("$0: No files given.") if ((@ARGV == 0) && (-t STDIN));
 
-my ($format_in, $verbose, $total_bool);
+my ($format_in, $verbose, $total_bool, $pop_in);
 my $window = 100;
 my $jump = 100;
 GetOptions(
@@ -20,6 +20,7 @@ GetOptions(
 	   "window=i" => \$window, 		# window size
 	   "jump=i" => \$jump,			# jump size
 	   "total" => \$total_bool,		# total percent ID? [FALSE]
+	   "population=s" => \$pop_in, 	# population table file
 	   "verbose" => \$verbose,
 	   "help|?" => \&pod2usage # Help
 	   );
@@ -31,6 +32,7 @@ if(! $format_in){
 
 
 ### MAIN
+# loading alignment #
 my ($alnin, $alnout);
 print STDERR "...loading alignment\n";
 eval{
@@ -43,15 +45,103 @@ if($@){		# if error
    	exit(-1);
 	}
 
-while (my $aln = $alnin->next_aln){
-	print STDERR "...calculating percent ID\n";
-	
-	write_total_percent_id($aln) if $total_bool;
+### calculating percent ID ###
+# if population table #
+if($pop_in){				
+	# loading pop table #
+	my ($pops_r, $pop_list_r) = load_pop($pop_in);
+	my ($name_ord_r);
+	while (my $aln = $alnin->next_aln){			# alignment
+		# name order for parsing alignment #
+		$name_ord_r = get_name_order($pops_r, $aln);
+		add_name_order($pops_r, $name_ord_r);
 
-	window_percent_id($aln, $window, $jump);
+		# pairwise comparisons of populations #	
+		for my $i (0..$#$pop_list_r){
+			my $pop_aln1 = $aln->select_noncont(@{$pops_r->{$$pop_list_r[$i]}});
+		
+			for my $ii (0..$#$pop_list_r){
+				next if $i <= $ii; 		# lower triangle
+				my $comp = join("__", $$pop_list_r[$i], $$pop_list_r[$ii]);
+				print STDERR "...calculating percent ID: Pop $$pop_list_r[$i] vs Pop $$pop_list_r[$ii]\n";
+	
+				my $pop_aln2 = $aln->select_noncont(@{$pops_r->{$$pop_list_r[$ii]}});
+				my $pop_aln12 = $aln->select_noncont(@{$pops_r->{$$pop_list_r[$i]}},
+									@{$pops_r->{$$pop_list_r[$ii]}});
+				
+				# calculating #
+				window_percent_id($pop_aln1, $window, $jump, $comp, "within_pop1");
+				window_percent_id($pop_aln2, $window, $jump, $comp, "within_pop2");
+				window_percent_id($pop_aln12, $window, $jump, $comp, "between");
+				}
+			}
+		}
+	}
+	
+# just all alignment #
+else{	
+	while (my $aln = $alnin->next_aln){
+		print STDERR "...calculating percent ID\n";
+	
+		write_total_percent_id($aln) if $total_bool;
+
+		window_percent_id($aln, $window, $jump);
+		}
 	}
 
+
 ### Subroutines
+sub add_name_order{
+# adding name order to populations #
+	my ($pops_r, $name_ord_r) = @_;
+	
+	foreach my $pop (keys %$pops_r){
+		foreach my $i (0..$#{$pops_r->{$pop}}){
+			if(exists $name_ord_r->{${$pops_r->{$pop}}[$i]} ){
+				${$pops_r->{$pop}}[$i] = $name_ord_r->{${$pops_r->{$pop}}[$i]}; 
+				}
+			else{
+				die " ERROR: ${$pops_r->{$pop}}[$i] not found in alignment!\n";
+				}
+			}
+		}
+		#print Dumper %$pops_r; exit;
+	}
+
+sub get_name_order{
+# getting position of each taxon in the alignment #
+	my ($pops_r, $aln) = @_;
+	
+	my %name_ord;
+	my $cnt = 0;
+	#while (my $name = $aln->each_seq->display_id()){
+	foreach my $seq ($aln->each_seq){
+		$cnt++;
+		$name_ord{$seq->display_id()} = $cnt;
+		}
+		#print Dumper %name_ord; exit;
+	return \%name_ord; 
+	}
+
+sub load_pop{
+# loading population table #
+	my ($pop_in) = @_;
+	open IN, $pop_in or die $!;
+	my %pops;
+	while(<IN>){
+		chomp;
+		next if /^\s*$/;
+		my @line = split /\t/;
+		die " ERROR: population table is not formatted correctly\n"
+			unless scalar @line == 2;
+		push(@{$pops{$line[1]}}, $line[0]);
+			#$pops{$line[1]}{$line[0]} = 1;
+		}
+	close IN;
+		#print Dumper %pops; exit;
+	return \%pops, [keys %pops];
+	}
+
 sub write_total_percent_id{
 # writing percent ID for total alignment #
 	my ($aln) = @_;
@@ -60,13 +150,13 @@ sub write_total_percent_id{
 
 sub window_percent_id{
 # getting percent ID for a window #
-	my ($aln, $window, $jump) = @_;
+	my ($aln, $window, $jump, $comp, $group) = @_;
 	
 	for (my $i=1; $i<=($aln->length -1); $i+=$jump){
 		my $sub_aln = $aln->slice($i, $i + $window - 1);		# subalignment
 		my $pID = $sub_aln->percentage_identity;				# percent ID
 		$pID = "NA" if ! $pID;
-		print join("\t", $i, $i+$window -1, $pID), "\n";		# writing
+		print join("\t", $i, $i+$window -1, $pID, $comp, $group), "\n";		# writing
 		}
 	}
 
@@ -93,6 +183,8 @@ sliding_percent_id.pl [options] < alignment > percentID.txt
 
 =item -j 	Jump length (bp). [100]
 
+=item -p	Population table (2 column: taxon	population).
+
 =item -t 	Get percent ID of total alignment length? [FALSE]
 
 =item -h	This help message
@@ -109,11 +201,20 @@ Get percent sequence identity for a sequence alignment over a sliding scale.
 
 Just using Bio::AlignIO subroutines.
 
+If a population table is provided (*txt; 2 column), then each population is
+compared via within vs between for each window. Two extra columns will be
+added to the output: the comparison, & which populations are being compared 
+(within each population or between).
+
 =head1 EXAMPLES
 
-=head2 Usage
+=head2 Usage: basic
 
 sliding_percent_id.pl -i fasta < file.fna > file_percent-ID.txt
+
+=head2 Usage: comparing populations
+
+sliding_percent_id.pl -i fasta -p pops.txt < file.fna > file_percent-ID-pop.txt
 
 =head1 AUTHOR
 
