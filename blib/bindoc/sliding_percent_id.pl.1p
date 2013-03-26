@@ -147,6 +147,8 @@ sliding_percent_id.pl [options] < alignment > percentID.txt
 .IX Item "-p	Population table (2 column: taxon	population)."
 .IP "\-t 	Get percent \s-1ID\s0 of total alignment length? [\s-1FALSE\s0]" 4
 .IX Item "-t 	Get percent ID of total alignment length? [FALSE]"
+.IP "\-v 	Verbose output" 4
+.IX Item "-v 	Verbose output"
 .IP "\-h	This help message" 4
 .IX Item "-h	This help message"
 .PD
