@@ -118,6 +118,7 @@ do{ my $x = [
                              './bin/gap_rm.pl',
                              './bin/SEQuel_batch.pl',
                              './bin/matrix_make_symmetric.pl',
+                             './bin/genome_align_conservation.pl',
                              './bin/sliding_percent_id.pl',
                              './bin/contig_length_table.pl',
                              './bin/contig_lengths.pl',
