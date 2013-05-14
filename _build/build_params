@@ -126,6 +126,7 @@ do{ my $x = [
                              './bin/scaffold_contamination_rm.pl',
                              './bin/scaffold_cat.pl',
                              './bin/alignment_splice.pl',
+                             './bin/genbank2gff.py',
                              './bin/alignIO.py',
                              './bin/blastxml_parse.pl'
                            ],
