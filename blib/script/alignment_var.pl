@@ -138,7 +138,7 @@ sub Ngap{
 		}
 	
 	$var_r->{$infile}{"gap"} = \@line;
-	$stats_r->{"gap"}{$infile} = $gap_total;
+	$stats_r->{"gap"}{$infile} = $gap_total / scalar @line;
 	}
 
 sub Nchar{
@@ -279,11 +279,12 @@ The file is sorted in decreasing order by most gaps.
 Positions are delimited by "|".
 Columns are: file, value, position_values
 
-value = total gaps.
+value = number of gaps per position.
 
 =head3 *_sum.txt
 
 Summary character variability and gap values for each alignment.
+Columns are: file, ave_num_char_per_position, ave_num_gap_per_position
 
 =head1 EXAMPLES
 
