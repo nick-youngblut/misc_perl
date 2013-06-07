@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
 #from BCBio import GFF
-import GFF
+from BCBio import GFF
 from Bio import SeqIO
+from optparse import OptionParser
 import sys
 
 # Arguments #
@@ -10,6 +11,9 @@ usage = """     %prog genbank_in_file gff_out_name"""
 description = """Description:   Use Biopython to convert a genbank to a gff."""
 epilog = """"""
 version = "0.1"
+
+parser = OptionParser(usage=usage, version = version, description=description, epilog=epilog)
+(options, args) = parser.parse_args()
 
 
 in_file = sys.argv[1]
