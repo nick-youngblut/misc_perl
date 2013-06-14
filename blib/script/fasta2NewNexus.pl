@@ -71,7 +71,7 @@ sub fasta2newnexus{
 	
 	# Matrix #
 	print "\tMATRIX\n";
-	foreach my $taxon (keys %$fasta_r){
+	foreach my $taxon (@taxa){
 		print join("\t\t", $taxon, $fasta_r->{$taxon}), "\n";
 		}
 	print ";\nEND;\n\n";
