@@ -125,6 +125,7 @@ do{ my $x = [
                              './bin/genome_align_conservation.pl',
                              './bin/sliding_percent_id.pl',
                              './bin/contig_length_table.pl',
+                             './bin/ranger-dtl_parse.pl',
                              './bin/contig_lengths.pl',
                              './bin/scaffold_contamination_rm.pl',
                              './bin/fasta2NewNexus.pl',
