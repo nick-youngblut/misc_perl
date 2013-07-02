@@ -122,6 +122,7 @@ do{ my $x = [
                              './bin/SEQuel_batch.pl',
                              './bin/matrix_make_symmetric.pl',
                              './bin/GapFiller_batch.pl',
+                             './bin/Notung_reconcile_parse.pl',
                              './bin/genome_align_conservation.pl',
                              './bin/sliding_percent_id.pl',
                              './bin/contig_length_table.pl',
