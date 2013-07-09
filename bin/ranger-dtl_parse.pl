@@ -12,9 +12,8 @@ use Bio::TreeIO;
 ### args/flags
 pod2usage("$0: No files given.") if ((@ARGV == 0) && (-t STDIN));
 
-my ($verbose, $cluster_names);
+my ($verbose);
 GetOptions(
-	   "cluster=s" => \$cluster_names,
 	   "verbose" => \$verbose,
 	   "help|?" => \&pod2usage # Help
 	   );
