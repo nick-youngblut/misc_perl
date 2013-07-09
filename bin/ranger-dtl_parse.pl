@@ -113,6 +113,7 @@ sub read_species_tree{
 
 	my $node_cnt;
 	while (my $tree = $treeio->next_tree){
+		
 		for my $node ($tree->get_nodes){
 			next if $node->is_Leaf;
 			my $node_id = $node->id;
@@ -137,6 +138,7 @@ sub read_species_tree{
 					elsif( $lca_id == $node_id){
 						$lca_r->{$node_id} = [($children[$i]->id, $children[$ii]->id)];
 						}
+					else{ die $!; }
 					}
 				}
 			
@@ -145,7 +147,7 @@ sub read_species_tree{
 		}
 
 	# sanity check #
-	die " ERROR: LCAs not found for all internal nodes!\n"
+	die " ERROR: LCAs not found for all internal nodes in species tree!\nWere bootstrap values left in the trees???\n"
 		unless $node_cnt == scalar keys %$lca_r;
 	
 		#print Dumper %$lca_r; exit;
