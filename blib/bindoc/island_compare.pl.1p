@@ -123,50 +123,48 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "RANGER-DTL_PARSE 1"
-.TH RANGER-DTL_PARSE 1 "2013-07-09" "perl v5.14.2" "User Contributed Perl Documentation"
+.IX Title "ISLAND_COMPARE 1"
+.TH ISLAND_COMPARE 1 "2013-07-09" "perl v5.14.2" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
 .SH "NAME"
-ranger_dtl_parse.pl \-\- parse ranger\-dtl output into a *txt table
+template.pl \-\- script template
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-ranger_dtl_parse.pl < ranger.dtl.out > ranger.dtl.out.txt
+template.pl [options] < input > output
 .SS "options"
 .IX Subsection "options"
+.IP "\-v	Verbose output" 4
+.IX Item "-v	Verbose output"
+.PD 0
 .IP "\-h	This help message" 4
 .IX Item "-h	This help message"
+.PD
 .SS "For more information:"
 .IX Subsection "For more information:"
-perldoc ranger_dtl_parse.pl
+perldoc template.pl
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-The output is a tab-delimited table. Blank value = not applicable.
-.SS "Columns of output"
-.IX Subsection "Columns of output"
-.IP "\(bu" 4
-Tree \s-1ID\s0 (order in newick input to ranger-dtl)
-.IP "\(bu" 4
-Gene tree node name
-.IP "\(bu" 4
-Species tree node name
-.IP "\(bu" 4
-Category (Duplication, Transfer, Speciation, or Leaf)
-.IP "\(bu" 4
-Recipient (species tree node name)
+The flow of execution is roughly:
+   1) Step 1
+   2) Step 2
+   3) Step 3
 .SH "EXAMPLES"
 .IX Header "EXAMPLES"
-.SS "Usage:"
-.IX Subsection "Usage:"
-ranger_dtl_parse.pl < ranger\-dtl.out > ranger\-dtl.out.txt
+.SS "Usage method 1"
+.IX Subsection "Usage method 1"
+template.pl <read1.fastq> <read2.fastq> <output directory or basename>
+.SS "Usage method 2"
+.IX Subsection "Usage method 2"
+template.pl <library file> <output directory or basename>
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 Nick Youngblut <nyoungb2@illinois.edu>
 .SH "AVAILABILITY"
 .IX Header "AVAILABILITY"
-sharchaea.life.uiuc.edu:/home/git/NY_misc_perl/
+sharchaea.life.uiuc.edu:/home/git/
 .SH "COPYRIGHT"
 .IX Header "COPYRIGHT"
 Copyright 2010, 2011
