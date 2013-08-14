@@ -123,45 +123,54 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "SEQIO 1"
-.TH SEQIO 1 "2013-08-14" "perl v5.14.2" "User Contributed Perl Documentation"
+.IX Title "COMP 1"
+.TH COMP 1 "2013-08-14" "perl v5.14.2" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
 .SH "NAME"
-seqIO.pl \-\- use Bio::SeqIO to convert among sequence file formats
+comp.pl \-\- convenience compression script
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-seqIO.pl [flags] < input > output
-.SS "Required flags"
-.IX Subsection "Required flags"
-.IP "\-i 	Input file format." 4
-.IX Item "-i 	Input file format."
+comp.pl [flags] file(s)
+.SS "Flags"
+.IX Subsection "Flags"
+.IP "\-f 	Max number of parallel file compressions. [1]" 4
+.IX Item "-f 	Max number of parallel file compressions. [1]"
 .PD 0
-.IP "\-o 	Output file format." 4
-.IX Item "-o 	Output file format."
-.PD
-.SS "Optional flags"
-.IX Subsection "Optional flags"
+.IP "\-u 	Uncompress files instead of compress. [\s-1FALSE\s0]" 4
+.IX Item "-u 	Uncompress files instead of compress. [FALSE]"
+.IP "\-k 	Keep original file? [\s-1FALSE\s0]" 4
+.IX Item "-k 	Keep original file? [FALSE]"
+.IP "\-v	Verbose output. [\s-1TRUE\s0]" 4
+.IX Item "-v	Verbose output. [TRUE]"
 .IP "\-h	This help message" 4
 .IX Item "-h	This help message"
+.PD
 .SS "For more information:"
 .IX Subsection "For more information:"
-perldoc seqIO.pl
+perldoc comp.pl
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-Use Bioperl's Bio::SeqIO module to convert
-among various sequence file formats.
-.PP
-.Vb 1
-\& If converting genbank => fasta, LOCUS name used.
-.Ve
+Perl wrapper for parallel calling  of tar and gzip 
+(makes and uncompresses *tar.gz or *tgz files).
+By default the original file is deleted after
+(un)compression has completed.
+.SS "\s-1WARNING\s0!"
+.IX Subsection "WARNING!"
+No spaces in names allowed!
 .SH "EXAMPLES"
 .IX Header "EXAMPLES"
-.SS "Convert genbank to fasta"
-.IX Subsection "Convert genbank to fasta"
-seqIO.pl \-i genbank \-o fasta < file.gbk > file.fasta
+.SS "Compression:"
+.IX Subsection "Compression:"
+comp.pl file.txt
+.SS "Uncompression:"
+.IX Subsection "Uncompression:"
+comp.pl \-u file.tar.gz
+.SS "Compression (keep original file):"
+.IX Subsection "Compression (keep original file):"
+comp.pl \-k file.txt
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 Nick Youngblut <nyoungb2@illinois.edu>
@@ -172,3 +181,9 @@ sharchaea.life.uiuc.edu:/home/git/NY_misc_perl/
 .IX Header "COPYRIGHT"
 Copyright 2010, 2011
 This software is licensed under the terms of the GPLv3
+.SH "POD ERRORS"
+.IX Header "POD ERRORS"
+Hey! \fBThe above document had some coding errors, which are explained below:\fR
+.IP "Around line 116:" 4
+.IX Item "Around line 116:"
+=back without =over

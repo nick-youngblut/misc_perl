@@ -19,7 +19,7 @@ GetOptions(
 	   "fork=i" => \$fork,
 	   "keep" => \$keep_bool,
 	   "verbose" => \$verbose,
-	   "help|?" => \&pod2usage # Help
+	   "help|?" => \&usage # Help
 	   );
 
 # loading file names #
