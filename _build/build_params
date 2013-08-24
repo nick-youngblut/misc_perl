@@ -111,6 +111,7 @@ do{ my $x = [
          'quiet' => undef,
          'extra_compiler_flags' => [],
          'script_files' => [
+                             './bin/accession2genbankInfo.pl',
                              './bin/fasta2AlleleTable.pl',
                              './bin/stats_descriptive.pl',
                              './bin/pipe_stats.r',
