@@ -206,9 +206,19 @@ Get percent sequence identity for a sequence alignment over a sliding scale.
 Just using Bio::AlignIO subroutines.
 
 If a population table is provided (*txt; 2 column), then each population is
-compared via within vs between for each window. Two extra columns will be
+compared via within vs between for each window. Also, two extra columns will be
 added to the output: the comparison, & which populations are being compared 
 (within each population or between).
+
+=head2 Required population table columns:
+
+=over
+
+=item 1) taxon name (must match sequence names!)
+
+=item 2) population number (1,2,3,etc.)
+
+=back
 
 =head1 EXAMPLES
 

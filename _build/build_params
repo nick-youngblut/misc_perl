@@ -137,6 +137,7 @@ do{ my $x = [
                              './bin/fasta2NewNexus.pl',
                              './bin/scaffold_cat.pl',
                              './bin/alignment_splice.pl',
+                             './bin/seq_renamer.pl',
                              './bin/genbank2gff.py',
                              './bin/alignIO.py',
                              './bin/blastxml_parse.pl'

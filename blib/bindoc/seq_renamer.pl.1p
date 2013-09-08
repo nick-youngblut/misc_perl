@@ -123,48 +123,40 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "RANGER-DTL_PARSE_ITOL 1"
-.TH RANGER-DTL_PARSE_ITOL 1 "2013-07-09" "perl v5.14.2" "User Contributed Perl Documentation"
+.IX Title "SEQ_RENAMER 1"
+.TH SEQ_RENAMER 1 "2013-08-24" "perl v5.14.2" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
 .SH "NAME"
-ranger_dtl_parse_ITOL.pl \-\- convert ranger\-dtl parse output into ITOL metadata
+seq_renamer.pl \-\- rename/delete sequence in a fasta file
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-ranger_dtl_parse_ITOL.pl < ranger_dtl_parsed.txt
+seq_renamer.pl [options] < file.fasta > file_renamed.fasta
 .SS "options"
 .IX Subsection "options"
-.ie n .IP "\-p 	Output file prefix. [""ranger\-dtl_parse""]" 4
-.el .IP "\-p 	Output file prefix. [``ranger\-dtl_parse'']" 4
-.IX Item "-p 	Output file prefix. [ranger-dtl_parse]"
+.IP "\-n 	Name file (2 column: old_name, new_name)." 4
+.IX Item "-n 	Name file (2 column: old_name, new_name)."
 .PD 0
-.IP "\-t 	Cutoff for fraction of trees predicting transfer at a node. [0.025]" 4
-.IX Item "-t 	Cutoff for fraction of trees predicting transfer at a node. [0.025]"
 .IP "\-h	This help message" 4
 .IX Item "-h	This help message"
 .PD
 .SS "For more information:"
 .IX Subsection "For more information:"
-perldoc ranger_dtl_parse.pl
+perldoc seq_renamer.pl
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-Make an \s-1ITOL\s0 metadata table of duplications and also
-an \s-1ITOL\s0 table of horzontal gene transfers (HGTs).
-The \s-1HGT\s0 table will be colored by blue gradient from 
-min number of trees supporting the \s-1HGT\s0 to the max
-(range is defined after applying the cutoff, so
-it is just the range of the HGTs plotted).
+Batch rename/delete sequences in a fasta file.
 .PP
-For the duplication-loss table, the radius ('R#')
-column is defined relative to the node with the
-max number of trees supporting the duplication.
+The name file can be .txt (tab-delimited) or .xls (excel).
+.PP
+\&.xls format: 1st worksheet, header required.
 .SH "EXAMPLES"
 .IX Header "EXAMPLES"
-.SS "Usage:"
-.IX Subsection "Usage:"
-ranger_dtl_parse_ITOL.pl < ranger\-dtl_parsed.txt
+.SS "Basic usage:"
+.IX Subsection "Basic usage:"
+seq_renamer.pl \-n rename_list.txt < file.fasta > renamed.fasta
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 Nick Youngblut <nyoungb2@illinois.edu>
