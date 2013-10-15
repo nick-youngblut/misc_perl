@@ -135,6 +135,7 @@ do{ my $x = [
                              './bin/spacerBlastSeed.pl',
                              './bin/percent_id_byPop.pl',
                              './bin/contig_lengths.pl',
+                             './bin/addFileName.pl',
                              './bin/scaffold_contamination_rm.pl',
                              './bin/fasta2NewNexus.pl',
                              './bin/scaffold_cat.pl',

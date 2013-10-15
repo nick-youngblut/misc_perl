@@ -8,7 +8,7 @@ use Data::Dumper;
 use Getopt::Long;
 use File::Spec;
 use Bio::DB::EUtilities;
-
+use Bio::DB::Taxonomy;
 
 ### args/flags
 pod2usage("$0: No files given.") if ((@ARGV == 0) && (-t STDIN));
@@ -16,7 +16,7 @@ pod2usage("$0: No files given.") if ((@ARGV == 0) && (-t STDIN));
 my ($verbose);
 my $sep = "\t";
 my $taxid_col = 1;
-my ($div_bool, $sci_bool, $genus_bool, $sp_bool, $subsp_bool);
+my ($div_bool, $sci_bool, $genus_bool, $sp_bool, $subsp_bool, $lin_bool);
 GetOptions(
 	   "column=i" => \$taxid_col, 
 	   "delimiter=s" => \$sep,
@@ -25,6 +25,7 @@ GetOptions(
 	   "genus" => \$genus_bool,
 	   "species" => \$sp_bool,
 	   "subspecies" => \$subsp_bool,
+	   "lineage" => \$lin_bool,
 	   "verbose" => \$verbose,
 	   "help|?" => \&pod2usage # Help
 	   );
@@ -64,9 +65,10 @@ while(<>){
 				if $sp_bool;
 			$names{$doc_cnt}{"subsp"} = [$doc->get_contents_by_name('Subsp')]
 				if $subsp_bool;
-			
 			$doc_cnt++;
 			}
+			
+		$names{0}{"lineage"} = get_lineage($id) if $lin_bool;
 
 		push @out, \%names;
         }
@@ -85,7 +87,9 @@ while(<>){
 			push @ll, ${$id->{$doc_cnt}{"sp"}}[0] 
 				if $sp_bool && ${$id->{$doc_cnt}{"sp"}}[0];
 			push @ll, ${$id->{$doc_cnt}{"subsp"}}[0] 
-				if $subsp_bool && ${$id->{$doc_cnt}{"subsp"}}[0];						
+				if $subsp_bool && ${$id->{$doc_cnt}{"subsp"}}[0];	
+			push @ll, ${$id->{$doc_cnt}{"lineage"}}[0] 
+				if $lin_bool && ${$id->{$doc_cnt}{"lineage"}}[0];						
 			}
 		push @ids, join("|", @ll) if @ll;
     	}
@@ -95,6 +99,43 @@ while(<>){
     print join($sep, @l), "\n";
  	}
 
+
+sub get_lineage{
+# if lineage needed #
+	my $id = shift;
+
+	my @levels = qw/superkingdom phylum class order family genus species/;
+
+	my %lineage;	
+	my $db = new Bio::DB::Taxonomy(-source => 'entrez');
+	my $node= $db->get_Taxonomy_Node(-taxonid => $id);
+
+	# get basal node #
+	my $anc = $node;
+	while(1){
+		last unless $anc->ancestor();
+		$anc = $anc->ancestor();
+		my $rank = $anc->rank;
+		if( grep(/$rank/i, @levels) ){
+			$lineage{$rank} = $anc->scientific_name;
+			}
+		}
+		
+	my @desc = $db->get_all_Descendents($node);
+
+	for my $child ( @desc ) {
+		my $rank = $anc->rank;
+		if( grep(/$rank/i, @levels) ){
+			$lineage{$rank} = $anc->scientific_name;
+			}
+		}
+	
+	# checking for each level #
+	map{ $lineage{$_} = "NA" unless $lineage{$_} } @levels;
+
+		#print join(":", @lineage{@levels}), "\n"; exit;
+	return [join(":", @lineage{@levels})];
+	}
 
 __END__
 
@@ -119,6 +160,10 @@ Column number containing taxIDs (indexed by 1). [1]
 =item -delimiter  <char>
 
 Delimiter separating columns in table. ['\t']
+
+=item -lineage  <bool>
+
+Include entire taxonomic lineage? [FALSE]
 
 =item -division  <bool>
 
@@ -167,6 +212,10 @@ A row in the table will not be altered unless a valid
 taxonomy ID can be found.
 
 =head1 EXAMPLES
+
+=head2 Just taxonomic lineage
+
+taxid2name.pl -lin < taxids.txt > taxids_lineage.txt
 
 =head2 Just scientific names
 
