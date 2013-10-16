@@ -142,6 +142,9 @@ Column number containing taxIDs (indexed by 1). [1]
 .IP "\-delimiter  <char>" 4
 .IX Item "-delimiter  <char>"
 Delimiter separating columns in table. ['\et']
+.IP "\-lineage  <bool>" 4
+.IX Item "-lineage  <bool>"
+Include entire taxonomic lineage? [\s-1FALSE\s0]
 .IP "\-division  <bool>" 4
 .IX Item "-division  <bool>"
 Include division name? [\s-1FALSE\s0]
@@ -183,6 +186,9 @@ A row in the table will not be altered unless a valid
 taxonomy \s-1ID\s0 can be found.
 .SH "EXAMPLES"
 .IX Header "EXAMPLES"
+.SS "Just taxonomic lineage"
+.IX Subsection "Just taxonomic lineage"
+taxid2name.pl \-lin < taxids.txt > taxids_lineage.txt
 .SS "Just scientific names"
 .IX Subsection "Just scientific names"
 taxid2name.pl \-sci < taxids.txt > taxids_sci.txt

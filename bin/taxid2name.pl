@@ -38,6 +38,9 @@ while(<>){
  	chomp;
  	if(/^\s*$/){ print; next; }
  	
+ 	# status #
+ 	print STDERR " $. lines processed\n" if ! $verbose && $. % 100 == 0;
+ 	
  	# parsing line #
  	my @l = split /$sep/;
  	my @taxids = split / *; */, $l[$taxid_col];
@@ -185,7 +188,9 @@ Include species name? [FALSE]
 
 Include subspecies name? [FALSE]
 
-=item -v	Verbose output
+=item -verbose  <bool>
+
+Verbose output. [TRUE]
 
 =item -h	This help message
 
