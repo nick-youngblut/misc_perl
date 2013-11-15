@@ -32,6 +32,9 @@ GetOptions(
 ### I/O error & defaults
 $delim = qr/$delim/;
 
+print STDERR " WARNING: forking bug! Some lines may not be written!\n"
+	if $fork > 0;
+
 ### MAIN
 # getting working directory #
 my $cwd = File::Spec->rel2abs(File::Spec->curdir());
@@ -83,6 +86,21 @@ $pm->wait_all_children;
 sub sum_distances{
 	my ($dist_file, $pops_r, $infile) = @_;
 	
+	# getting unique pops #
+	my %upop;
+	map{ $upop{$_} = 1 } values %$pops_r;
+	my @upop = sort keys %upop;
+	my @pop_comb;
+	for my $i (0..$#upop){
+		for my $ii (0..$#upop){
+			next if $ii < $i;
+			push @pop_comb, join("__", $upop[$i], $upop[$ii]);
+			}
+		}
+	push @pop_comb, "total";
+
+	
+	# loading distances from Mothur file and summing #
 	my %pop_pdist;
 	open IN, $dist_file or die $!;
 	while(<IN>){
@@ -113,12 +131,15 @@ sub sum_distances{
 	close IN;
 	
 	# summing distances #
-	foreach my $pop (keys %pop_pdist){
-		#$pop_pdist_sum{$pop} = ( sum(@{$pop_pdist{$pop}}) / scalar @{$pop_pdist{$pop}} ) * 100;
-		print join("\t", $infile, $pop, 
+	foreach my $pop (@pop_comb){
+		if(exists $pop_pdist{$pop}){
+			print join("\t", $infile, $pop, 
 				( sum(@{$pop_pdist{$pop}}) / scalar @{$pop_pdist{$pop}} ) * 100 ), "\n";
+			}
+		else{			# no value, NAs produced
+			print join("\t", $infile, $pop, "NA"), "\n";
+			}
 		}
-		
 	}
 
 sub load_files{

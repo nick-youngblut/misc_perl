@@ -225,7 +225,6 @@ Column names in blast table. ["qseqid sseqid pident length mismatch gapopen qsta
 
 Column names used for grouping taxonomies. ["qseqid"]
 
-
 =item -v	Verbose output
 
 =item -h	This help message

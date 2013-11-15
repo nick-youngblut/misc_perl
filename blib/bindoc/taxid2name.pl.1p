@@ -124,7 +124,7 @@
 .\" ========================================================================
 .\"
 .IX Title "TAXID2NAME 1"
-.TH TAXID2NAME 1 "2013-10-15" "perl v5.14.2" "User Contributed Perl Documentation"
+.TH TAXID2NAME 1 "2013-11-09" "perl v5.14.2" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -133,7 +133,7 @@
 taxid2name.pl \-\- get taxonomy names for a list of ncbi taxonomy IDs
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-taxid2name.pl [options] < input.txt > output.txt
+taxid2name.pl [options] input.txt > output.txt
 .SS "options"
 .IX Subsection "options"
 .IP "\-column  <int>" 4
@@ -160,12 +160,14 @@ Include species name? [\s-1FALSE\s0]
 .IP "\-subspecies  <bool>" 4
 .IX Item "-subspecies  <bool>"
 Include subspecies name? [\s-1FALSE\s0]
-.IP "\-v	Verbose output" 4
-.IX Item "-v	Verbose output"
-.PD 0
+.IP "\-fork  <int>" 4
+.IX Item "-fork  <int>"
+Number of parallel EUtilities queries. [1]
+.IP "\-verbose  <bool>" 4
+.IX Item "-verbose  <bool>"
+Verbose output. [\s-1TRUE\s0]
 .IP "\-h	This help message" 4
 .IX Item "-h	This help message"
-.PD
 .SS "For more information:"
 .IX Subsection "For more information:"
 perldoc taxid2name.pl
@@ -188,13 +190,13 @@ taxonomy \s-1ID\s0 can be found.
 .IX Header "EXAMPLES"
 .SS "Just taxonomic lineage"
 .IX Subsection "Just taxonomic lineage"
-taxid2name.pl \-lin < taxids.txt > taxids_lineage.txt
+taxid2name.pl \-lin taxids.txt > taxids_lineage.txt
 .SS "Just scientific names"
 .IX Subsection "Just scientific names"
-taxid2name.pl \-sci < taxids.txt > taxids_sci.txt
+taxid2name.pl \-sci taxids.txt > taxids_sci.txt
 .SS "Just division, genus, & species"
 .IX Subsection "Just division, genus, & species"
-taxid2name.pl \-div \-sp \-sub < taxids.txt > taxids_div\-sp\-subsp.txt
+taxid2name.pl \-div \-sp \-sub taxids.txt > taxids_div\-sp\-subsp.txt
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 Nick Youngblut <nyoungb2@illinois.edu>
