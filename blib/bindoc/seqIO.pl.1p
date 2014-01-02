@@ -124,7 +124,7 @@
 .\" ========================================================================
 .\"
 .IX Title "SEQIO 1"
-.TH SEQIO 1 "2013-08-14" "perl v5.14.2" "User Contributed Perl Documentation"
+.TH SEQIO 1 "2013-11-25" "perl v5.14.2" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -144,8 +144,12 @@ seqIO.pl [flags] < input > output
 .PD
 .SS "Optional flags"
 .IX Subsection "Optional flags"
+.IP "\-n 	File of sequence names to keep (1 name per line)" 4
+.IX Item "-n 	File of sequence names to keep (1 name per line)"
+.PD 0
 .IP "\-h	This help message" 4
 .IX Item "-h	This help message"
+.PD
 .SS "For more information:"
 .IX Subsection "For more information:"
 perldoc seqIO.pl
@@ -162,6 +166,9 @@ among various sequence file formats.
 .SS "Convert genbank to fasta"
 .IX Subsection "Convert genbank to fasta"
 seqIO.pl \-i genbank \-o fasta < file.gbk > file.fasta
+.SS "Parse/keep just some sequences in a fasta"
+.IX Subsection "Parse/keep just some sequences in a fasta"
+seqIO.pl \-i fasta \-o fasta \-n seqs2keep.txt < file.fasta > file_subset.fasta
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 Nick Youngblut <nyoungb2@illinois.edu>

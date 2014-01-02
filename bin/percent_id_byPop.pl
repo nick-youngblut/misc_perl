@@ -188,7 +188,11 @@ __END__
 
 =head1 NAME
 
-percent_id_byPop.pl -- Calculating average percent ID within & between populations
+percent_id_byPop.pl -- Calculating average percent ID within & between populations 
+
+########################################
+# NOT used anymore! Use seqID_byPop.pl #
+########################################
 
 =head1 SYNOPSIS
 

@@ -21,10 +21,11 @@ pod2usage("$0: No files given.") if ((@ARGV == 0) && (-t STDIN));
 my ($error);
 
 ### I/O
-my ($format_in, $format_out, $verbose);
+my ($format_in, $format_out, $verbose, $names_in);
 GetOptions(
 	   "in=s" => \$format_in,
 	   "out=s" => \$format_out,
+	   "name=s" => \$names_in, 
 	   "verbose" => \$verbose,
 	   "help|?" => \&pod2usage # Help
 	   );
@@ -51,11 +52,46 @@ if($@){		# if error
    	print STDERR "Full error is\n\n$@\n";
    	exit(-1);
 	}
-while (my $seq = $seqin->next_seq){
+	
+# loading names file if provided #
+my $names_r = load_names($names_in) if defined $names_in;
+	
+# writing sequences #
+while (my $seq = $seqin->next_seq){	
+	# changing description if genbank #
 	if($format_in =~ /genbank/i){			# genbank->fasta: using LOCUS name
 		$seq->desc($seq->display_id);
 		}
+	# filtering by names list #
+	next if defined $names_r && ! exists $names_r->{$seq->primary_id};
+
+	# writing out sequence #	
 	$seqout->write_seq($seq);
+	}
+
+
+#--- Subroutines ---#
+sub load_names{
+	my ($names_in) = @_;
+	die "ERROR: cannot find $names_in!\n" 
+		unless -e $names_in || -l $names_in;
+	
+	open IN, $names_in or die $!;
+	my %names;
+	while(<IN>){
+		chomp;
+		next if /^\s*$/;
+		$names{$_}++;	
+		}
+	close IN;
+	
+	# checking for > 1 #
+	foreach my $name (keys %names){
+		print STDERR "WARNING: $name found $names{$name} times in the names file!\n"
+			if $names{$name} > 1;
+		}
+	
+	return \%names;
 	}
 
 
@@ -85,6 +121,8 @@ seqIO.pl [flags] < input > output
 
 =over
 
+=item -n 	File of sequence names to keep (1 name per line)
+
 =item -h	This help message
 
 =back
@@ -105,6 +143,10 @@ among various sequence file formats.
 =head2 Convert genbank to fasta
 
 seqIO.pl -i genbank -o fasta < file.gbk > file.fasta
+
+=head2 Parse/keep just some sequences in a fasta
+
+seqIO.pl -i fasta -o fasta -n seqs2keep.txt < file.fasta > file_subset.fasta
 
 =head1 AUTHOR
 
