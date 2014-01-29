@@ -144,7 +144,8 @@ do{ my $x = [
                              './bin/blastTaxonomySummary.pl',
                              './bin/genbank2gff.py',
                              './bin/alignIO.py',
-                             './bin/blastxml_parse.pl'
+                             './bin/blastxml_parse.pl',
+                             './bin/RAST_tblFromTarBall.pl'
                            ],
          'build_script' => 'Build',
          'original_prefix' => {},

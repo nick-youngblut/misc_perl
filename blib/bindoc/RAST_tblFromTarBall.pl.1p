@@ -123,73 +123,42 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "PERCENT_ID_BYPOP 1"
-.TH PERCENT_ID_BYPOP 1 "2014-01-02" "perl v5.14.2" "User Contributed Perl Documentation"
+.IX Title "RAST_TBLFROMTARBALL 1"
+.TH RAST_TBLFROMTARBALL 1 "2014-01-02" "perl v5.14.2" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
 .SH "NAME"
-percent_id_byPop.pl \-\- Calculating average percent ID within & between populations
-.PP
-########################################
-# NOT used anymore! Use seqID_byPop.pl #
-########################################
+RAST_tblFromTarBall.pl \-\- pull out 'FIG\-ID/Features/peg/tbl' file from RAST tarball
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-.SS "Piping in a list of files"
-.IX Subsection "Piping in a list of files"
-find . \-name \*(L"*fasta\*(R" | percent_id_byPop.pl [options] > percentID.txt
-.SS "Providing files as arguments"
-.IX Subsection "Providing files as arguments"
-percent_id_byPop.pl [options] file(s).fasta > percentID.txt
-.SS "options"
-.IX Subsection "options"
-.IP "\-population" 4
-.IX Item "-population"
-Population file (2\-column, tab-delimited, no header). 1st=taxon_name 2nd=population_ID
-.IP "\-delimiter" 4
-.IX Item "-delimiter"
-Delimiter separating taxon_name from annotation in sequence files. [\*(L" \*(R"]
-.IP "\-fork" 4
-.IX Item "-fork"
-Number of files to process in parallel. [1]
-.IP "\-processors" 4
-.IX Item "-processors"
-Number of processors used by Mothur. [1]
-.IP "\-mothur" 4
-.IX Item "-mothur"
-Mothur cmd used to produce a pdistance matrix. [\*(L"dist.seqs(fasta=?, calc=onegap, countends=T)\*(R"]
+RAST_tblFromTarBall.pl [flags] *tar
+.SS "Required flags"
+.IX Subsection "Required flags"
+\&\s-1NONE\s0
+.SS "Optional flags"
+.IX Subsection "Optional flags"
+.IP "\-f 	Number of files to process in parallel. [1]" 4
+.IX Item "-f 	Number of files to process in parallel. [1]"
+.PD 0
+.IP "\-v	Verbose output" 4
+.IX Item "-v	Verbose output"
 .IP "\-h	This help message" 4
 .IX Item "-h	This help message"
+.PD
 .SS "For more information:"
 .IX Subsection "For more information:"
-perldoc percent_id_byPop.pl
+perldoc RAST_tblFromTarBall.pl
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-Get average percent sequence identity of all comparisons of sequences.
-Average percent identity comparisons are parsed by population
-(both within and between) if a population file is provided.
-.SS "Required population table columns:"
-.IX Subsection "Required population table columns:"
-.IP "1) taxon name (must match sequence names!)" 4
-.IX Item "1) taxon name (must match sequence names!)"
-.PD 0
-.IP "2) population number (1,2,3,etc.)" 4
-.IX Item "2) population number (1,2,3,etc.)"
-.PD
-.PP
-Not all taxa in the population file need to be found in each alignment.
-The '\-delimiter' option can be used is annotations or other info is 
-appended on the taxon names in the sequence files.
+Pull out the 'FIG\-ID/Features/peg/tbl' file, which
+has the \s-1RAST\s0 FIG-PEG IDs.
 .SH "EXAMPLES"
 .IX Header "EXAMPLES"
-.SS "Just average percent identity among all sequences"
-.IX Subsection "Just average percent identity among all sequences"
-percent_id_byPop.pl < *.fasta > percent\-ID.txt
-.SS "Comparing populations"
-.IX Subsection "Comparing populations"
-percent_id_byPop.pl \-p pops.txt < *.fasta > percent\-ID\-pop.txt
+.SS "Basic usage (4 files processed in parallel):"
+.IX Subsection "Basic usage (4 files processed in parallel):"
+RAST_tblFromTarBall.pl \-f 4 *tar
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 Nick Youngblut <nyoungb2@illinois.edu>
