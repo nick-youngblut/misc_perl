@@ -111,6 +111,7 @@ do{ my $x = [
          'quiet' => undef,
          'extra_compiler_flags' => [],
          'script_files' => [
+                             './bin/fasta_selectSeqs.pl',
                              './bin/accession2genbankInfo.pl',
                              './bin/fasta2AlleleTable.pl',
                              './bin/stats_descriptive.pl',
@@ -127,6 +128,7 @@ do{ my $x = [
                              './bin/GapFiller_batch.pl',
                              './bin/Notung_reconcile_parse.pl',
                              './bin/overlap.pl',
+                             './bin/sqlite3PipeQuery.pl',
                              './bin/comp.pl',
                              './bin/seqIO.pl',
                              './bin/genome_align_conservation.pl',

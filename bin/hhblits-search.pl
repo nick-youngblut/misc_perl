@@ -8,7 +8,7 @@ hhblits-search.pl -- run hhblits then hhsearch on an AA sequence
 
 =head1 SYNOPSIS
 
-hhblits-search.pl [flags] 
+echo "MNKIEKDIFKNFVVFLMTPENIKLKTLEMTFEGAG" | hhblits-search.pl [flags] 
 
 =head2 Required flags
 
@@ -27,6 +27,11 @@ Prefix for output file. A new directory will be made if file path not found.
 =item -database  <char>
 
 hhblits database ('nr' or 'uniprot'). [nr]
+
+=item -fasta  <char>
+
+Multi-fasta file of AA sequences (instead of piping 1 sequence from STDIN).
+Each sequence will produce separate output files. 
 
 =item -cpu  <int>
 
@@ -96,16 +101,17 @@ use File::Spec;
 #--- args/flags ---#
 pod2usage("$0: No files given.") if ((@ARGV == 0) && (-t STDIN));
 
-my ($verbose_b, $outfile);
+my ($verbose_b, $outfile, $fasta_in);
 my $db = "nr";
 my $cpu = 1;
 GetOptions(
-	"database=s" => \$db,
-	"prefix=s" => \$outfile,
-	"cpu=i" => \$cpu,
-	"verbose" => \$verbose_b,
-	"help|?" => \&pod2usage # Help
-	);
+	   "database=s" => \$db,
+	   "prefix=s" => \$outfile,
+	   "fasta=s" => \$fasta_in,
+	   "cpu=i" => \$cpu,
+	   "verbose" => \$verbose_b,
+	   "help|?" => \&pod2usage # Help
+	  );
 
 #--- I/O error ---#
 die "ERROR: provide an output file\n"
@@ -118,16 +124,50 @@ my @parts = File::Spec->splitdir($outfile);
 mkdir $parts[1] unless -d $parts[1];		# making output directory if not found
 
 # loading stdin
-my $seq = load_seq();
+my $fasta_r;
+if(defined $fasta_in){
+  $fasta_r = load_fasta($fasta_in);
+}
+else{
+  $fasta_r = load_seq();
+}
 
-# calling hhblits
-my $outa3m = call_hhblits($seq, $outfile, $db, $cpu);
+foreach my $seq (@$fasta_r){
+  
+  # outfile
+  my $outfile2;
+  if( scalar @$fasta_r > 1){
+    $outfile2 = multi_outfile($outfile, $seq);
+  }
+  else{
+  $outfile2 = $outfile;
+  }
 
-# calling hhsearch
-call_hhsearch($outa3m, $outfile, $cpu);
+  # calling hhblits
+  my $outa3m = call_hhblits($seq, $outfile2, $db, $cpu);
+
+  # calling hhsearch
+  call_hhsearch($outa3m, $outfile2, $cpu);
+}
 
 
 #--- Subroutines ---#
+sub multi_outfile{
+  my ($outfile, $seq) = @_;
+
+  my @l = split /\\n/, $seq;
+  die "ERROR: '$seq' not formatted correctly $!\n"
+    unless scalar @l == 2;
+
+  $l[0] =~ s/^>//;
+  $l[0] =~ s/[| \/]/_/g;
+  $outfile = $outfile . "__$l[0]";
+
+  #print Dumper $outfile; exit;
+  return $outfile;
+}
+
+
 sub call_hhsearch{
 	my ($outa3m, $outfile, $cpu) = @_;
 	
@@ -170,24 +210,52 @@ sub call_hhblits{
 	return $outa3m; 
 	}
 
+sub load_fasta{
+  my ($fasta_in) = @_;
+  
+  open IN, $fasta_in or die $!;
+  my (%fasta, $tmpkey);
+  while(<IN>){
+    chomp;
+    next if /^\s*$/;
+
+    if(/^>/){
+      $tmpkey = $_;
+      $fasta{$tmpkey} = "";
+    }
+    else{
+      $fasta{$tmpkey} .= $_;
+    }
+  }
+    
+  # converting to an array
+  my @fasta;
+  foreach my $name (keys %fasta){
+    push @fasta, join("\\n", $name, $fasta{$name});
+  }
+
+  #print Dumper @fasta; exit;
+  return \@fasta;
+}
+
 sub load_seq{
-	my $seq;
-	while(<>){
-		chomp;
-		next if /^\s*$/;
-		if($.==1 ){
-			if(/^>/){
-				$seq = "$_\\n";
-				}
-			else{		# if no sequence name provided, adding name
-				$seq = ">sequence\\n$_";
-				}
-			}
-		else{
-			$seq .= $_;
-			}
-		}
-		#print Dumper $seq; exit;
-	return $seq;
-	}
+  my $seq;
+  while(<>){
+    chomp;
+    next if /^\s*$/;
+    if($.==1 ){
+      if(/^>/){
+	$seq = "$_\\n";
+      }
+      else{		# if no sequence name provided, adding name
+	$seq = ">sequence\\n$_";
+      }
+    }
+    else{
+      $seq .= $_;
+    }
+  }
+  #print Dumper $seq; exit;
+  return [$seq];
+}
 
