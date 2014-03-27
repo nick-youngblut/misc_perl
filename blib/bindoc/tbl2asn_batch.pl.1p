@@ -123,72 +123,74 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "HHBLITS-SEARCH 1"
-.TH HHBLITS-SEARCH 1 "2014-03-26" "perl v5.14.2" "User Contributed Perl Documentation"
+.IX Title "TBL2ASN_BATCH 1"
+.TH TBL2ASN_BATCH 1 "2014-03-26" "perl v5.14.2" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
 .SH "NAME"
-hhblits\-search.pl \-\- run hhblits then hhsearch on an AA sequence
+template.pl \-\- script template
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-echo \*(L"\s-1MNKIEKDIFKNFVVFLMTPENIKLKTLEMTFEGAG\s0\*(R" | hhblits\-search.pl [flags]
+tbl2asn_batch.pl [flags] < input > output
 .SS "Required flags"
 .IX Subsection "Required flags"
-.IP "\-prefix  <char>" 4
-.IX Item "-prefix  <char>"
-Prefix for output file. A new directory will be made if file path not found.
+.IP "\-p" 4
+.IX Item "-p"
+Path to all of the necessary file (eg. *fsa & *cmt)
+.IP "\-c" 4
+.IX Item "-c"
+Configuration file. Similar to Circos cfg files. 
+Use '\-x' to write an example to \s-1STDOUT\s0.
 .SS "Optional flags"
 .IX Subsection "Optional flags"
-.IP "\-database  <char>" 4
-.IX Item "-database  <char>"
-hhblits database ('nr' or 'uniprot'). [nr]
-.IP "\-fasta  <char>" 4
-.IX Item "-fasta  <char>"
-Multi-fasta file of \s-1AA\s0 sequences (instead of piping 1 sequence from \s-1STDIN\s0).
-Each sequence will produce separate output files.
-.IP "\-cpu  <int>" 4
-.IX Item "-cpu  <int>"
-Number of CPUs to use for hhblits & hhsearch. [1]
+Organism name
+.Sp
+.RS 4
+regular expression to pull the strain name from the
+organism name. 2 arguments required [\-s '.+ ' '']
+.IP "\-x" 4
+.IX Item "-x"
+Write an example config file to \s-1STDOUT\s0.
 .IP "\-v	Verbose output" 4
 .IX Item "-v	Verbose output"
 .PD 0
 .IP "\-h	This help message" 4
 .IX Item "-h	This help message"
+.RE
+.RS 4
+.RE
 .PD
 .SS "For more information:"
 .IX Subsection "For more information:"
-perldoc hhblits\-search.pl
+perldoc tbl2asn_batch.pl
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-Help identify homology to known proteins.
-Provide an \s-1AA\s0 sequence in fasta format
-via \s-1STDIN\s0 (see examples).
-A sequence name doesn't have to be provided.
-.PP
-The pipeline is as follows:
-.IP "1) call hhblits on sequence to produce a a3m file." 4
-.IX Item "1) call hhblits on sequence to produce a a3m file."
-.PD 0
-.IP "2) call hhsearch using a3m file on \s-1COG\s0, pfam, and \s-1CDD\s0 databases." 4
-.IX Item "2) call hhsearch using a3m file on COG, pfam, and CDD databases."
-.PD
+The flow of execution is roughly:
+   1) Step 1
+   2) Step 2
 .SH "EXAMPLES"
 .IX Header "EXAMPLES"
 .SS "Basic usage:"
 .IX Subsection "Basic usage:"
-printf \*(L">test\enMNKIEKDIFKNFVVFLMTPENIKLKTLEMTF\*(R" | hhblits\-search.pl \-pre output
-.SS "No name in sequence"
-.IX Subsection "No name in sequence"
-printf \*(L"\s-1MNKIEKDIFKNFVVFLMTPENIKLKTLEMTF\s0\*(R" | hhblits\-search.pl \-pre output
+tbl2asn_batch.pl < input > output
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 Nick Youngblut <nyoungb2@illinois.edu>
 .SH "AVAILABILITY"
 .IX Header "AVAILABILITY"
-sharchaea.life.uiuc.edu:/home/git/NY_misc_perl/
+sharchaea.life.uiuc.edu:/home/git/
 .SH "COPYRIGHT"
 .IX Header "COPYRIGHT"
 Copyright 2010, 2011
 This software is licensed under the terms of the GPLv3
+.SH "POD ERRORS"
+.IX Header "POD ERRORS"
+Hey! \fBThe above document had some coding errors, which are explained below:\fR
+.IP "Around line 32:" 4
+.IX Item "Around line 32:"
+=over should be: '=over' or '=over positive_number'
+.IP "Around line 49:" 4
+.IX Item "Around line 49:"
+You forgot a '=back' before '=head2'

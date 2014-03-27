@@ -132,6 +132,7 @@ do{ my $x = [
                              './bin/comp.pl',
                              './bin/seqIO.pl',
                              './bin/genome_align_conservation.pl',
+                             './bin/tbl2asn_batch.pl',
                              './bin/sliding_percent_id.pl',
                              './bin/taxid2name.pl',
                              './bin/contig_length_table.pl',
