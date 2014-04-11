@@ -90,7 +90,7 @@ use Config::General 2.50;
 #--- args/flags ---#
 pod2usage("$0: No files given.") if ((@ARGV == 0) && (-t STDIN));
 
-my ($verbose_b, $config_file, $xconfig);
+my ($verbose_b, $config_file);
 my ($organism, $path);
 my @strain_regex = ('.+ ', '');
 GetOptions(
@@ -98,12 +98,13 @@ GetOptions(
 	   "strain=s{2,2}" => \@strain_regex,
 	   "path=s" => \$path,
 	   "config=s" => \$config_file,
-	   "x" => \$xconfig,
+	   "x" => \&write_config,
 	   "verbose" => \$verbose_b,
 	   "help|?" => \&pod2usage # Help
 	  );
 
 #--- I/O error ---#
+
 die "ERROR: provide a config file\n"
   unless defined $config_file;
 die "ERROR: provide a path to the necesary files\n"
@@ -115,8 +116,6 @@ $strain_regex[0] = qr/$strain_regex[0]/;
   if $organism;
 
 #--- MAIN ---#
-# write example config file if needed
-write_config() if $xconfig;
 
 # getting configuration options
 my $conf = Config::General->new(-SplitPolicy => 'equalsign',
