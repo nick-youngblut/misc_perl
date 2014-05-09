@@ -160,11 +160,8 @@ use Getopt::Euclid;
 use Hash::MultiKey; 
 use Statistics::Descriptive;
 use Parallel::ForkManager;
-use List::Util qw/min max/;
-
-## test
-#my %tmp = (1 => 1, 2 => 2, 10 => 10, 20 => 20);
-#print Dumper @tmp{(1..5)}; exit;
+#use List::Util qw/min max/;
+use List::MoreUtils qw/minmax/;
 
 
 #--- I/O error ---#
@@ -216,16 +213,18 @@ $pm->run_on_finish(
   }
 );
 
+## getting min-max of all values
+#print Dumper %tbl; exit;
+my @pos;
+map{ push @pos, keys $_ } @tbl{keys %tbl}; 
+my ($min, $max) = minmax(@pos);
+
 ## each group
 foreach my $group (keys %tbl){
   $pm->start and next;
 
-  # window range min/max
-  my $group_min = min( keys %{$tbl{$group}} ); 
-  my $group_max = max( keys %{$tbl{$group}} );
-
   my %stats;
-  for(my $i=$group_min; $i<=$group_max; $i+=$ARGV{'-j'}){ # each window
+  for(my $i=$min; $i<=$max; $i+=$ARGV{'-j'}){ # each window
     # loading values for each window
     my $stat = Statistics::Descriptive::Full->new();
     for my $x (@{$tbl{$group}}{$i..($i+$ARGV{'-w'})} ){
@@ -244,8 +243,3 @@ foreach my $group (keys %tbl){
   $pm->finish(0, \%stats);
 }
 $pm->wait_all_children;
-
-# possible input
-## value column (required)
-## series column (required; numeric) 
-## grouping column(s)
