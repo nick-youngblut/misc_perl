@@ -8,6 +8,7 @@ use Data::Dumper;
 use Getopt::Long;
 use File::Spec;
 use Bio::SearchIO;
+use Bio::AlignIO;
 
 ### args/flags
 pod2usage("$0: No files given.") if ((@ARGV == 0) && (-t STDIN));
@@ -17,7 +18,7 @@ my $hsp_length = 0;
 my $query_length = 0;
 my $percentID = 0;
 my $bit_score = 0;
-my ($verbose, $taxa_summary, $header);
+my ($verbose, $taxa_summary, $header, $type_strains, $subject_seq);
 GetOptions(
 	   "header" => \$header,								# [TRUE]
 	   "evalue=s" => \$evalue,
@@ -26,6 +27,8 @@ GetOptions(
 	   "percentID=i" => \$percentID,
 	   "bit_score=i" => \$bit_score,
 	   "taxa_summary=i" => \$taxa_summary,				# make a summary of taxa hit [FALSE]
+	   "type_strain" => \$type_strains,
+	   "sequence" => \$subject_seq, 
 	   "verbose" => \$verbose,
 	   "help|?" => \&pod2usage # Help
 	   );
@@ -37,7 +40,9 @@ my $in = Bio::SearchIO->new(-format => "blastxml", -fh => \*STDIN);
 
 # header #
 if(! $taxa_summary && ! $header){
-	print join("\t", qw/query_desc hit_accession hit_desc perc_id evalue bit_score hsp_length q_start q_end hit_start hit_end/), "\n";
+	my @header = qw/query_desc hit_accession hit_desc perc_id evalue bit_score hsp_length q_start q_end hit_start hit_end/;
+	push @header, "sseq" if $subject_seq;
+	print join("\t", @header), "\n";
 	}
 
 my %tax_sum;									# Summary table of taxa hit (query, hit-gi, hit-desc, count) 
@@ -51,6 +56,11 @@ while( my $result = $in->next_result ) {		# result object
     			$hsp->bits > $bit_score &&
     			$hsp->evalue < $evalue
     		 	) {
+				
+				if($type_strains){
+					next if $hit->description =~ /Uncultured/i;
+					}
+					
 				if($taxa_summary && $taxa_summary == 1){
 					$tax_sum{$hit->accession}{$hit->description}{$result->query_description}++;
 					}
@@ -79,7 +89,7 @@ while( my $result = $in->next_result ) {		# result object
 					$tax_sum{$hit->accession}{$hit->description}{$result->query_description}{"bits"} += $hsp->bits;
 					}
 				else{
-					print join("\t", 
+					my @out = (
 						$result->query_description, 			# qseqid
 						$hit->accession,						# accession
 						$hit->description,					# qdescription
@@ -91,7 +101,14 @@ while( my $result = $in->next_result ) {		# result object
 						$hsp->end('query'),
 						$hsp->start('hit'),
 						$hsp->end('hit')
-						), "\n";
+						);
+					if($subject_seq){
+						my $aln = $hsp->get_aln;
+						my @seqs = $aln->each_seq;
+						push(@out, $seqs[1]->seq);
+						}
+
+					print join("\t", @out), "\n";
         			}
        			} 
 			}
@@ -189,6 +206,14 @@ Bit score
 =item -header 			
 
 Print header? [TRUE]
+
+=item -sequence
+
+Subject sequence column? [FALSE]
+
+=item -type_strain
+
+Just type strain hit (no 'uncultured')? [FALSE
 
 =item -help			
 

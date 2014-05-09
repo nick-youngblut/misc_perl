@@ -124,7 +124,7 @@
 .\" ========================================================================
 .\"
 .IX Title "BLASTXML_PARSE 1"
-.TH BLASTXML_PARSE 1 "2013-02-05" "perl v5.14.2" "User Contributed Perl Documentation"
+.TH BLASTXML_PARSE 1 "2013-08-23" "perl v5.14.2" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -157,6 +157,12 @@ Bit score
 .IP "\-header" 4
 .IX Item "-header"
 Print header? [\s-1TRUE\s0]
+.IP "\-sequence" 4
+.IX Item "-sequence"
+Subject sequence column? [\s-1FALSE\s0]
+.IP "\-type_strain" 4
+.IX Item "-type_strain"
+Just type strain hit (no 'uncultured')? [\s-1FALSE\s0
 .IP "\-help" 4
 .IX Item "-help"
 This help message
